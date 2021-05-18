@@ -11,7 +11,7 @@
 // Show all playlists when displaying the list
 // Add CSS to increase the height and remove maxheight on playlist div
 var style = document.createElement('style');
-style.textContent = ".playlists div { height: max-content !important; max-height: none !important; }</style>";
+style.textContent = ".playlists div { height: max-content !important; max-height: none !important; }";
 document.head.appendChild(style);
 
 // Show all related videos automatically
