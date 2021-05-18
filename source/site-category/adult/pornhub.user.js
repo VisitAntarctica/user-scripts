@@ -1,5 +1,6 @@
 // ==UserScript==
-// @name     PornHub Tools
+// @name      PornHub Tools
+// @namespace /user-scripts/source/site-category/adult/pornhub.user.js 
 // @include /^https://.*\.?pornhub(premium)?\.com/view_video.php/
 // @version  1.03
 // @grant    none
