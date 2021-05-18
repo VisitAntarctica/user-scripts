@@ -2,7 +2,7 @@
 // @name      PornHub Tools
 // @namespace /user-scripts/source/site-category/adult/pornhub.user.js 
 // @include /^https://.*\.?pornhub(premium)?\.com/view_video.php/
-// @version  1.03
+// @version  1.03.1
 // @grant    none
 // @noframes
 // @description UX enhancements for PornHub power users
