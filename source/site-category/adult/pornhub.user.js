@@ -15,9 +15,9 @@ style.textContent = ".playlists div { height: max-content !important; max-height
 document.head.appendChild(style);
 
 /* Run when DOM is fully loaded */ 
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", (function(){
   console.log("DOMContentLoaded has fired!");
   // Show all related videos automatically
   document.getElementById('loadMoreRelatedVideosCenter').click();
   console.log("Post-load run is complete");
-});
+  }));
