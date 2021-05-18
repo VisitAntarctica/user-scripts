@@ -14,5 +14,8 @@ var style = document.createElement('style');
 style.textContent = ".playlists div { height: max-content !important; max-height: none !important; }";
 document.head.appendChild(style);
 
-// Show all related videos automatically
-document.getElementById('loadMoreRelatedVideosCenter').click();
+/* Run when DOM is fully loaded */ 
+document.addEventListener("DOMContentLoaded", function(){
+  // Show all related videos automatically
+  document.getElementById('loadMoreRelatedVideosCenter').click();
+});
