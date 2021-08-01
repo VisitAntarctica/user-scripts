@@ -1,7 +1,8 @@
 // ==UserScript==
 // @name     Webcamjackers Tools
+// @namespace /user-scripts/source/site-category/adult/wj-tools.user.js 
 // @include /^https://.*\.?webcamjackers\.com/
-// @version  1.01
+// @version  1.02
 // @grant    none
 // @noframes
 // @description This includes some fixes/tools for WJ UI
