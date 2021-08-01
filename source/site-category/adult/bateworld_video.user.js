@@ -12,10 +12,11 @@
 // For every video element found in the page, 
 //  use page details to create an HREF to the 
 //  source video file
-function makeSourceLinks (){ 
-    var vel = document.getElementsByTagName('video');
-    for(var i = 0 ; i < vel.length ; i++ ){
-        var src = vel[i].currentSrc;
+(function() {
+
+    // process video element
+    function processVideo( el ){
+        var src = el.currentSrc;
         var fileExt = src.split('.').pop();
         var title = document.getElementsByTagName('title')[0].textContent;
 
@@ -40,10 +41,14 @@ function makeSourceLinks (){
 
         document.getElementsByClassName('page_header')[0].append(link);
 
+    }
+    var vel = document.getElementsByTagName('video');
+    for(var i = 0 ; i < vel.length ; i++ ){
+        
         //jQuery('div.page_header').append('<a style="padding-left: 15px;" href="' + a.currentSrc + '" download="' + n + '">Download video</a>'); 
         //GM.setClipboard(fileLabel);
     }
-}
+})();
 
 /* Run when DOM is fully loaded */ 
 function postrun(){
@@ -52,4 +57,6 @@ function postrun(){
     console.log("Post-load run is complete");
     document.removeEventListener(l);
   };
+  console.log("video.user.js has run");
 var l = document.addEventListener("DOMContentLoaded", postrun);
+console.log(["l has been created", l]);
