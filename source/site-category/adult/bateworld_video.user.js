@@ -13,6 +13,9 @@ var CDN_ROOT = 'https://n2h5a5n4.ssl.hwcdn.net/';
 var VID_EXTENSION = '.mp4';
 
 (function() {
+    // Determine the title of the page so we can
+    //  try to pre-set the downloaded file name
+    var title = document.querySelector('title').textContent;
     // For every video element found in the page, 
     //  use page details to create an HREF to the 
     //  source video file
@@ -21,28 +24,24 @@ var VID_EXTENSION = '.mp4';
             // process video element
             var src = el.src;
             var fileExt = src.split('.').pop();
-            var title = document.querySelector('title').textContent;
-            
             var titMatch = [...title.matchAll(/^.* - (.*)'s video - (.*)$/igm)];
             //var m = [...t.matchAll(/^.* - (.*)'s video - (.*)$/igm)]; 
+            var fileLabel = "";
+            if( titMatch.length >= 1 && titMatch[0].length >= 3 ){
+                // valid capture, set the file label
+                fileLabel = ( 
+                    titMatch.length > 0 ? 
+                    'bw_' + titMatch[0][1] + '_' + titMatch[0][2] + '.' + fileExt:
+                    title
+                ); 
+            }
+            var link = document.createElement('a');
+            link.href = src;
+            link.style = "padding-left: 15px;";
+            link.textContent = "Download video"
+            link.setAttribute('download', fileLabel);
             
-            var fileLabel = ( 
-                titMatch.length > 0 ? 
-                'bw_' + titMatch[0][1] + '_' + titMatch[0][2] + '.' + fileExt :
-                title
-                );
-                /*if (m.length > 0) { 
-                    var n = 'bw_' + m[0][1] + '_' + m[0][2] + '.' + ext; 
-                } else { 
-                    var n = t; 
-                } */
-                var link = document.createElement('a');
-                link.href = src;
-                link.style = "padding-left: 15px;";
-                link.textContent = "Download video"
-                link.setAttribute('download', fileLabel);
-                
-                document.querySelector('div.page_header').append(link);
+            document.querySelector('div.page_header').append(link);
         }
     );
 
