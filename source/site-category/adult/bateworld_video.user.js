@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/bateworld_video.user.js 
 // @include /^https://.*\.?bateworld?\.com/video.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
-// @version  1.03
+// @version  1.04
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
