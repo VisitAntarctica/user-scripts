@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/bateworld_video.user.js 
 // @include /^https://.*\.?bateworld?\.com/video.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
-// @version  1.09
+// @version  1.10
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -79,7 +79,7 @@ var VID_EXTENSION = '.mp4';
                         ); */
                         fileLabel = ( 
                             titMatch.length > 0 ? 
-                            `${sMatch[0][1]} ${titMatch[0][2]}.${fileExt}`:
+                            `${sMatch[0][1]} ${titMatch[0][2].trim()}.${fileExt}`:
                             title
                         );
                     }
