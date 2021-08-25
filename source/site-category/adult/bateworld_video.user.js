@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/bateworld_video.user.js 
 // @include /^https://.*\.?bateworld?\.com/video.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
-// @version  1.06
+// @version  1.07
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -57,9 +57,9 @@ var VID_EXTENSION = '.mp4';
     // For every video element found in the page, 
     //  use page details to create an HREF to the 
     //  source video file
-    window.addEventListener("load", function(){ 
+    //window.addEventListener("load", function(){ 
         // for all the video elements in the page
-        document.setTimeout(() => {
+        window.setTimeout(() => {
             document.querySelectorAll('video').forEach(
                 function(el){
                     // process video element
@@ -124,5 +124,5 @@ var VID_EXTENSION = '.mp4';
                 el.querySelector('td:nth-child(2)').append(d);
             }
         );
-    }, false);
+    //}, false);
 })();
