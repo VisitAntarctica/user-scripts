@@ -23,7 +23,7 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
     var link = document.createElement('a');
     link.class = "x_gravity_link";
     if( GRAVITY_ON ){
-        link.href = `http://${GRAVITY_CONFIG.host}:${GRAVITY_CONFIG.port}/?u=${urlencode(targetUrl)}&p=${urlencode(referer)}&fn=${urlencode(fileName)}`;
+        link.href = `http://${GRAVITY_CONFIG.host}:${GRAVITY_CONFIG.port}/?u=${window.urlencode(targetUrl)}&p=${window.urlencode(referer)}&fn=${window.urlencode(fileName)}`;
         link.innerHTML = `${GRAVITY_CONFIG.icon}&nbsp;${text}`;
     } else {
         link.href = targetUrl;
