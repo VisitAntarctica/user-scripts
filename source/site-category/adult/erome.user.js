@@ -52,7 +52,13 @@ var GRAVITY_DIRECT = ( obj , ...map ) => {
         var a = document.createElement('a');
         a.href = obj[i][map[0]];
         a.textContent = obj[i][map[1]] || "link";
+        a.setAttribute( 'class' , obj[i][map[2]] || "gravity-link");
+        // var dl = a.cloneNode(true);
+        // dl.innerHTML = "&#11015;";
+        // dl.setAttribute('style', "padding-left: 5px");
+        // dl.setAttribute('download','');
         li.appendChild(a);
+        // li.appendChild(dl)
         ol.appendChild(li);
     }
     return ol;
@@ -90,15 +96,17 @@ var SCAN_IMAGES = () => {
     // album images
     document.querySelectorAll('div.img > img').forEach((el) => { 
         var src = el.src;
-        var datasrcObj = el.attributes.getNamedItem('data-src') || "";
-        var datasrc = datasrcObj.textContent || "";
-        if( IMAGE_KEYS.indexOf( src ) === -1 ){
-            IMAGES.push({
-                'src': src,
-                'datasrc': datasrc
-            });
-            IMAGE_KEYS.push(src);
-        } // else: duplicate
+        if( el.src !== window.location ){
+            var datasrcObj = el.attributes.getNamedItem('data-src') || "";
+            var datasrc = datasrcObj.textContent || "";
+            if( IMAGE_KEYS.indexOf( src ) === -1 ){
+                IMAGES.push({
+                    'src': src,
+                    'datasrc': datasrc
+                });
+                IMAGE_KEYS.push(src);
+            } // else: duplicate
+        }
     });
 }
 
@@ -149,7 +157,7 @@ var MAKE_DECORATION = ( remove_existing = true ) => {
         //note.appendChild( GRAVITY_DUMP( IMAGES , TITLE , window.location , "Images", USER));
         basket.appendChild( 
             DIVWRAP( 
-                GRAVITY_DIRECT( IMAGES , 'src', null) , 
+                GRAVITY_DIRECT( IMAGES , 'src', null , 'gravity-link') , 
                 {
                     'id': 'gravity-images', 
                     'style': ''
@@ -162,7 +170,7 @@ var MAKE_DECORATION = ( remove_existing = true ) => {
         //note.appendChild( GRAVITY_DUMP( VIDEOS , TITLE , window.location , "Videos", USER));
         basket.appendChild( 
             DIVWRAP( 
-                GRAVITY_DIRECT( VIDEOS, 'src', 'res' ) , 
+                GRAVITY_DIRECT( VIDEOS, 'src', 'res' , 'gravity-link' ) , 
                 {
                     'id': 'gravity-videos',
                     'style': 'padding: 1px;'
