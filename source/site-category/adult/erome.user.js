@@ -82,7 +82,7 @@ var VIDEO_PATH = {
 };
 var OUTERDIV_ID = 'notify-js';
 var BASKET_ID = 'basket';
-
+var BASKET_TITLE = "FilesDirect";
 var VIDEO_KEYS = [];
 var VIDEOS = [];
 var IMAGE_KEYS = [];
@@ -139,7 +139,7 @@ var MAKE_DECORATION = ( remove_existing = true ) => {
     // make the decoratives, expose the functionality
     var note = document.getElementById(OUTERDIV_ID) || document.createElement('div');
     note.id = OUTERDIV_ID;
-    note.style = "position: fixed; top: 50px; bottom: 10px; left: 10px; padding: 10px; width: 100px; overflow-x: hidden; overflow-y: auto; background-color: rgba(100,100,100,0.2); color: #eee;";
+    note.style = "position: fixed; top: 50px; bottom: 10px; left: 10px; padding: 10px; width: 100px; overflow-x: visible; overflow-y: auto; background-color: rgba(100,100,100,0.2); color: #eee;";
     note.style.border = "1px solid #ccc";
     
     // basket (this is the top level removed)
@@ -148,7 +148,7 @@ var MAKE_DECORATION = ( remove_existing = true ) => {
     
     // basket header
     var p = document.createElement('strong');
-    p.textContent = "FilesDirect";
+    p.textContent = BASKET_TITLE;
     p.onclick = USERSCAN;
     basket.appendChild( p );
     
