@@ -2,7 +2,7 @@
 // @name      Erome - Video & Photo
 // @namespace /user-scripts/source/site-category/adult/erome.user.js 
 // @include /^https://.*\.?erome?\.com/a/\.*/
-// @version  1.00
+// @version  1.01
 // @grant    none
 // @noframes
 // @description Image and video tools for Erome
@@ -87,6 +87,9 @@ var VIDEO_KEYS = [];
 var VIDEOS = [];
 var IMAGE_KEYS = [];
 var IMAGES = [];
+var THUMBS = [];
+var THUMB_KEYS = [];
+
 // album title 
 var TITLE = document.querySelector(ALBUM_TITLE).textContent.trim();
 // album user
@@ -99,13 +102,26 @@ var SCAN_IMAGES = () => {
         if( el.src !== window.location ){
             var datasrcObj = el.attributes.getNamedItem('data-src') || "";
             var datasrc = datasrcObj.textContent || "";
-            if( IMAGE_KEYS.indexOf( src ) === -1 ){
-                IMAGES.push({
-                    'src': src,
-                    'datasrc': datasrc
-                });
-                IMAGE_KEYS.push(src);
-            } // else: duplicate
+            if ( datasrc == "" ){
+                // probably a thumbnail
+                if( THUMB_KEYS.indexOf( src ) === -1 ){
+                    THUMBS.push({
+                        'src': src,
+                        'type': 'thm',
+                    });
+                    THUMB_KEYS.push(src);
+                }
+            } else {
+                // probably an image
+                if( IMAGE_KEYS.indexOf( src ) === -1 ){
+                    IMAGES.push({
+                        'src': src,
+                        'datasrc': datasrc,
+                        'type': 'img'
+                    });
+                    IMAGE_KEYS.push(src);
+                } 
+            } // else: duplicate entry
         }
     });
 }
@@ -129,7 +145,7 @@ var SCAN_ALL = ( decorate_when_complete = true ) => {
     SCAN_IMAGES();
     SCAN_VIDEOS();
     if(decorate_when_complete)
-        MAKE_DECORATION();
+    MAKE_DECORATION();
 };
 var USERSCAN = () => {
     console.info('User refreshed');
@@ -156,14 +172,12 @@ var MAKE_DECORATION = ( remove_existing = true ) => {
     if( IMAGES.length > 0 && IMAGES.length !== VIDEOS.length ){
         //note.appendChild( GRAVITY_DUMP( IMAGES , TITLE , window.location , "Images", USER));
         basket.appendChild( 
-            DIVWRAP( 
-                GRAVITY_DIRECT( IMAGES , 'src', null , 'gravity-link') , 
-                {
-                    'id': 'gravity-images', 
-                    'style': ''
-                }
-            ) 
-        );
+            DIVWRAP( GRAVITY_DIRECT( IMAGES , 'src', 'type' , 'gravity-link') , 
+            {
+                'id': 'gravity-images', 
+                'style': ''
+            }
+        ));
     }
     // do the videos
     if( VIDEOS.length > 0 ){
@@ -178,10 +192,23 @@ var MAKE_DECORATION = ( remove_existing = true ) => {
             )
         );
     }
+    // do the thumbnails
+    if( THUMBS.length > 0 ){
+        //note.appendChild( GRAVITY_DUMP( VIDEOS , TITLE , window.location , "Videos", USER));
+        basket.appendChild( 
+            DIVWRAP( 
+                GRAVITY_DIRECT( THUMBS, 'src', 'type' , 'gravity-link' ) , 
+                {
+                    'id': 'gravity-thumbs',
+                    'style': 'padding: 1px;'
+                }
+            )
+        );
+    }
     if( remove_existing === true ){
         var d = document.getElementById(BASKET_ID) || null ;
         if( d !== null )
-            d.parentElement.removeChild(d);
+        d.parentElement.removeChild(d);
     }
     note.appendChild(basket);
     document.body.appendChild(note);
