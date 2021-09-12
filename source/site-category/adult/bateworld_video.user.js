@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/video.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.12
+// @version  1.14
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
