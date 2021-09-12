@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/video.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.14
+// @version  1.15
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -97,34 +97,38 @@ var VID_EXTENSION = '.mp4';
                     }
                 );
         }, 3000);    
-        // For every video row in the related videos panel, show a download link
-        document.querySelectorAll('div.video_row').forEach(
-            function(el){
-                // get video title
-                var titleEl = el.querySelector('div.video_row_title a');
-                var title = titleEl.textContent.trim();
-                var ref = titleEl.getAttribute('href');
-                // get thumb path 
-                var imgSrc = el.querySelector('a img').src;
-                var path = [...imgSrc.matchAll(/bateworld.com\/(.*)_thumb.jpg$/igm)];
-                // get video ID number
-                var vMatch = path[0][1].match(/\/(\d+)$/);
-                var vnum = vMatch[1];
-                // create elements
-                var d = document.createElement('div');
-                // var link = document.createElement('a');
-                // link.href = CDN_ROOT + path[0][1] + VID_EXTENSION;
-                // link.style = "padding-left: 15px;";
-                // link.textContent = 'Download';
-                // link.target = "_blank";
-                d.append(GRAVITY_LINK( 
-                    CDN_ROOT + path[0][1] + VID_EXTENSION ,
-                    'Download',
-                    `${vnum} ${title}${VID_EXTENSION}`,
-                    ref
-                ));
-                el.querySelector('td:nth-child(2)').append(d);
-            }
-        );
+        // For every video row in the related videos panel, show a download link (div.video_row)
+        // For every video row  in the videos tab, show a download link (div.videoTab)
+        var VIDEO_DIVS = ['div.video_row' , 'div.videoTab'];
+        VIDEO_DIVS.forEach( (qs) => {
+            document.querySelectorAll(qs).forEach(
+                function(el){
+                    // get video title
+                    var titleEl = el.querySelector('div.video_row_title a');
+                    var title = titleEl.textContent.trim();
+                    var ref = titleEl.getAttribute('href');
+                    // get thumb path 
+                    var imgSrc = el.querySelector('a img').src;
+                    var path = [...imgSrc.matchAll(/bateworld.com\/(.*)_thumb.jpg$/igm)];
+                    // get video ID number
+                    var vMatch = path[0][1].match(/\/(\d+)$/);
+                    var vnum = vMatch[1];
+                    // create elements
+                    var d = document.createElement('div');
+                    // var link = document.createElement('a');
+                    // link.href = CDN_ROOT + path[0][1] + VID_EXTENSION;
+                    // link.style = "padding-left: 15px;";
+                    // link.textContent = 'Download';
+                    // link.target = "_blank";
+                    d.append(GRAVITY_LINK( 
+                        CDN_ROOT + path[0][1] + VID_EXTENSION ,
+                        'Download',
+                        `${vnum} ${title}${VID_EXTENSION}`,
+                        ref
+                    ));
+                    el.querySelector('td:nth-child(2)').append(d);
+                }
+            );
+        });
     //}, false);
 })();
