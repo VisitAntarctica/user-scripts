@@ -32,8 +32,8 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
     }
     if( ! fileName ){
         link.setAttribute('download', fileName);
-        link.setAttribute('title' , fileName);
     }
+    link.setAttribute('title' , fileName);
     // link.target = "_blank";
     return link;
 };
