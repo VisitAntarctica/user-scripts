@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/video.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.11
+// @version  1.12
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -32,6 +32,7 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
     }
     if( ! fileName ){
         link.setAttribute('download', fileName);
+        link.setAttribute('title' , fileName);
     }
     // link.target = "_blank";
     return link;
