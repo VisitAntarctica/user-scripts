@@ -2,7 +2,7 @@
 // @name      Bateworld - Photo
 // @namespace /user-scripts/source/site-category/adult/bateworld_photo.user.js 
 // @include /^https://.*\.?bateworld?\.com/album(_group)?.php/
-// @version  1.00
+// @version  1.01
 // @grant    none
 // @noframes
 // @description Photo tools for Bateworld
@@ -14,7 +14,7 @@ var GRAVITY_CONFIG = {
     'host': 'localhost',
     'port': '5050',
     'state': null,
-    'icon': '&#128371;',
+    'icon': '&#128247;',
     'default_icon':'&#128279;' 
 };
 var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
