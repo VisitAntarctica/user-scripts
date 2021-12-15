@@ -2,7 +2,7 @@
 // @name      Bateworld - Photo
 // @namespace /user-scripts/source/site-category/adult/bateworld_photo.user.js 
 // @include /^https://.*\.?bateworld?\.com/album(_group)?.php/
-// @version  1.01
+// @version  1.02
 // @grant    none
 // @noframes
 // @description Photo tools for Bateworld
@@ -135,6 +135,10 @@ var PIC_EXTENSION = '.jpg';
                     // get photo ID number
                     var vMatch = path[0][1].match(/[^\d](\d+)$/);
                     var vnum = vMatch[1];
+                    // get photo title if any
+                    var imgTitle = el.textContent.trim();
+                    if( imgTitle.length != 0 )
+                        imgTitle = ` ${imgTitle}`;
                     // get file extension
                     var fileExt = path[0][2].trim().length > 0 ? path[0][2].trim() : PIC_EXTENSION;
                     // create elements
@@ -147,7 +151,7 @@ var PIC_EXTENSION = '.jpg';
                     d.append(GRAVITY_LINK( 
                         CDN_ROOT + path[0][1] + fileExt ,
                         'Download',
-                        `${title} ${vnum}${fileExt}`,
+                        `${title} ${vnum}${imgTitle}${fileExt}`,
                         ref
                     ));
                     el.append(d);
