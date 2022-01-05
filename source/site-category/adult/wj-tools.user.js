@@ -2,7 +2,7 @@
 // @name     Webcamjackers Tools
 // @namespace /user-scripts/source/site-category/adult/wj-tools.user.js 
 // @include /^https://.*\.?webcamjackers\.com/
-// @version  1.05
+// @version  1.06
 // @grant    none
 // @noframes
 // @description This includes some fixes/tools for WJ UI
@@ -21,12 +21,14 @@ document.querySelector('div.aside_spot').style.display = 'none';
 // add a download link if there's a video player on the page
 var vid = document.querySelector('video#thisPlayer source') || null;
 if( vid ){
-    var vtitle = document.querySelector('h1.title');
+    var loc = [...document.location.toString().matchAll(/\/([^\/]*?)\.html$/igm)];
+    console.info(loc[0][1]);
+    var titleEl = document.querySelector('h1.title');
     var vSrc = vid.getAttribute('src');
     var link = document.createElement('a');
     link.setAttribute('style','padding-left:10px; color: #aa0000 !important;');
     link.setAttribute('href', vSrc);
-    link.setAttribute('title', vtitle.textContent.trim());
+    link.setAttribute('title', (loc.length == 1 && loc[0].length == 2) ? loc[0][1] : titleEl.textContent.trim());
     link.textContent = "Download";
-    vtitle.appendChild(link);
+    titleEl.appendChild(link);
 }
