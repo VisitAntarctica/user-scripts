@@ -2,7 +2,7 @@
 // @name     Webcamjackers Tools
 // @namespace /user-scripts/source/site-category/adult/wj-tools.user.js 
 // @include /^https://.*\.?webcamjackers\.com/
-// @version  1.06
+// @version  1.07
 // @grant    none
 // @noframes
 // @description This includes some fixes/tools for WJ UI
@@ -28,7 +28,7 @@ if( vid ){
     var link = document.createElement('a');
     link.setAttribute('style','padding-left:10px; color: #aa0000 !important;');
     link.setAttribute('href', vSrc);
-    link.setAttribute('title', (loc.length == 1 && loc[0].length == 2) ? loc[0][1] : titleEl.textContent.trim());
+    link.setAttribute('download', (loc.length == 1 && loc[0].length == 2) ? loc[0][1] : titleEl.textContent.trim());
     link.textContent = "Download";
     titleEl.appendChild(link);
 }
