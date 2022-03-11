@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name      Bateworld - Video
 // @namespace /user-scripts/source/site-category/adult/bateworld_video.user.js 
-// @include /^https://.*\.?bateworld?\.com/video(_group)?.php/
+// @include /^https://.*\.?bateworld?\.com/(bate_)?video(_group)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.16
+// @version  1.17
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -84,6 +84,8 @@ var VID_EXTENSION = '.mp4';
                             `${sMatch[0][1]} ${titMatch[0][2].trim()}.${fileExt}`:
                             title
                         );
+                    } else {
+                        fileLabel = title;
                     }
                     /*var link = document.createElement('a');
                     link.href = src;
@@ -111,7 +113,7 @@ var VID_EXTENSION = '.mp4';
                     var imgSrc = el.querySelector('a img').src;
                     var path = [...imgSrc.matchAll(/bateworld.com\/(.*)_thumb.jpg$/igm)];
                     // get video ID number
-                    var vMatch = path[0][1].match(/\/(\d+)$/);
+                    var vMatch = path[0][1].match(/[^\d](\d+)$/);
                     var vnum = vMatch[1];
                     // create elements
                     var d = document.createElement('div');
