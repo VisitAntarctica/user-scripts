@@ -2,7 +2,7 @@
 // @name      Erome - Video & Photo
 // @namespace /user-scripts/source/site-category/adult/erome.user.js 
 // @include /^https://.*\.?erome?\.com/a/\.*/
-// @version  1.01
+// @version  1.02
 // @grant    none
 // @noframes
 // @description Image and video tools for Erome
@@ -72,7 +72,7 @@ var DIVWRAP = ( el , attrs  ) => {
     return d;
 }
 
-var ALBUM_TITLE = 'div#userAlbum h1';
+var ALBUM_TITLE = 'div h1';
 var ALBUM_IMAGES = 'div.img > img';
 var SINGLE_IMAGES = '';
 var VIDEO_PATH = {
