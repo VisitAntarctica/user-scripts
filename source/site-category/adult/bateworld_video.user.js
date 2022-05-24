@@ -105,30 +105,34 @@ var VID_EXTENSION = '.mp4';
         VIDEO_DIVS.forEach( (qs) => {
             document.querySelectorAll(qs).forEach(
                 function(el){
-                    // get video title
-                    var titleEl = el.querySelector('div.video_row_title a');
-                    var title = titleEl.textContent.trim();
-                    var ref = titleEl.getAttribute('href');
-                    // get thumb path 
-                    var imgSrc = el.querySelector('a img').src;
-                    var path = [...imgSrc.matchAll(/bateworld.com\/(.*)_thumb.jpg$/igm)];
-                    // get video ID number
-                    var vMatch = path[0][1].match(/[^\d](\d+)$/);
-                    var vnum = vMatch[1];
-                    // create elements
-                    var d = document.createElement('div');
-                    // var link = document.createElement('a');
-                    // link.href = CDN_ROOT + path[0][1] + VID_EXTENSION;
-                    // link.style = "padding-left: 15px;";
-                    // link.textContent = 'Download';
-                    // link.target = "_blank";
-                    d.append(GRAVITY_LINK( 
-                        CDN_ROOT + path[0][1] + VID_EXTENSION ,
-                        'Download',
-                        `${vnum} ${title}${VID_EXTENSION}`,
-                        ref
-                    ));
-                    el.querySelector('td:nth-child(2)').append(d);
+                    try {
+                        // get video title
+                        var titleEl = el.querySelector('div.video_row_title a');
+                        var title = titleEl.textContent.trim();
+                        var ref = titleEl.getAttribute('href');
+                        // get thumb path 
+                        var imgSrc = el.querySelector('a img').src;
+                        var path = [...imgSrc.matchAll(/bateworld.com\/(.*)_thumb.jpg$/igm)];
+                        // get video ID number
+                        var vMatch = path[0][1].match(/[^\d](\d+)$/);
+                        var vnum = vMatch[1];
+                        // create elements
+                        var d = document.createElement('div');
+                        // var link = document.createElement('a');
+                        // link.href = CDN_ROOT + path[0][1] + VID_EXTENSION;
+                        // link.style = "padding-left: 15px;";
+                        // link.textContent = 'Download';
+                        // link.target = "_blank";
+                        d.append(GRAVITY_LINK( 
+                            CDN_ROOT + path[0][1] + VID_EXTENSION ,
+                            'Download',
+                            `${vnum} ${title}${VID_EXTENSION}`,
+                            ref
+                        ));
+                        el.querySelector('td:nth-child(2)').append(d);
+                    } catch(e){
+                        console.error("Error in video div processing. ", e);
+                    }
                 }
             );
         });
