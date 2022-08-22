@@ -104,10 +104,24 @@ var SCAN_POSTS = () => {
 
         // add to the array? 
         if( result && result.length > 1 ){
+            // check for enough digits
+            post_title = result[1];
+            var dig = post_title.match(/^(\d+)/i);
+            if( dig && dig.length > 1 ){
+                switch(dig[1].length){
+                    case 1:
+                        post_title = "0" + post_title;
+                    case 2:
+                        post_title = "0" + post_title;
+                    case 3:
+                        post_title = "0" + post_title;
+                        break;
+                }
+            }
             var src = vid.src;
             // ensure this isn't a duplicate
             if ( VIDEO_KEYS.indexOf( vid.src ) === -1 ){
-                post_title = result[1];
+                
                 VIDEOS.push({
                     'src': src,
                     'type': vid.type,
