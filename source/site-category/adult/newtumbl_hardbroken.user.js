@@ -2,7 +2,7 @@
 // @name      Newtumbl - SC Helper
 // @namespace /user-scripts/source/site-category/adult/newtumbl_hardbroken.js
 // @include /^https://hardbroken.newtumbl.com/
-// @version  1.00
+// @version  1.02
 // @grant    none
 // @noframes
 // @description Helper for SC video DL from a newtumbl blog
