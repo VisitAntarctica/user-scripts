@@ -2,7 +2,7 @@
 // @name      Pornflip - Extract video source
 // @namespace /user-scripts/source/site-category/adult/pornflip_video_src.user.js 
 // @include /^https://.*\.?pornflip?\.com/v/
-// @version  1.01
+// @version  1.02
 // @grant    none
 // @noframes
 // @description Extracts & displays video source on Pornflip video pages
@@ -42,6 +42,7 @@ var get_video_src = () => {
         skiprun = 0;
     } else {
         // try again shortly
+        console.log("No media player found, taking a short break...");
         skiprun++;
         setTimeout(get_video_src, 1000);
     }
