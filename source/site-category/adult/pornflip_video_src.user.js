@@ -2,7 +2,8 @@
 // @name      Pornflip - Extract video source
 // @namespace /user-scripts/source/site-category/adult/pornflip_video_src.user.js 
 // @include /^https://.*\.?pornflip?\.com/v/
-// @version  1.02
+// @include /^https://.*\.?pornflip?\.com/[A-Za-z0-9]{3,}/
+// @version  1.03
 // @grant    none
 // @noframes
 // @description Extracts & displays video source on Pornflip video pages
