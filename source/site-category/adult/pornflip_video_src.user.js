@@ -2,7 +2,7 @@
 // @name      Pornflip - Extract video source
 // @namespace /user-scripts/source/site-category/adult/pornflip_video_src.user.js 
 // @include /^https://.*\.?pornflip?\.com/v/
-// @version  1.00
+// @version  1.01
 // @grant    none
 // @noframes
 // @description Extracts & displays video source on Pornflip video pages
@@ -14,7 +14,7 @@ var get_video_title = () => {
     var cl = title.split(',');
     if( cl.length > 1 ) cl.pop();
 
-    return cl.join(" ");
+    return cl.join(" ").replace(/ ?Gay Porn ?$/,"");
 }
 var get_video_src = () => {
     var keys = [
