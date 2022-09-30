@@ -8,6 +8,8 @@
 // @description Extracts & displays video source on Pornflip video pages
 // ==/UserScript==
 
+var skiprun = 0;
+
 var get_video_title = () => {
     // strip everything after the last comma
     var title = document.getElementsByTagName('title')[0].textContent;
@@ -37,6 +39,11 @@ var get_video_src = () => {
                 }
             }
         }
+        skiprun = 0;
+    } else {
+        // try again shortly
+        skiprun++;
+        setTimeout(get_video_src, 1000);
     }
 };
 var show_video_src = (label , src , parentEl) => {
