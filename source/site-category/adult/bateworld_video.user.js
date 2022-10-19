@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.19
+// @version  1.20
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -130,6 +130,17 @@ var VID_EXTENSION = '.mp4';
                             ref
                         ));
                         el.querySelector('td:nth-child(2)').append(d);
+
+                        if( parseInt(vnum) >= 100000 ){
+                            var d2 = document.createElement('div');
+                            d2.append(GRAVITY_LINK(
+                                CDN_ROOT + path[0][1] + "-720" + VID_EXTENSION ,
+                                '720',
+                                `${vnum} ${title}${VID_EXTENSION}`,
+                                ref
+                            ));
+                            el.querySelector('td:nth-child(2)').append(d2);
+                        }
                     } catch(e){
                         console.error("Error in video div processing. ", e);
                     }
