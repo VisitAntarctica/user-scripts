@@ -2,7 +2,7 @@
 // @name      Newtumbl - SC Helper
 // @namespace /user-scripts/source/site-category/adult/newtumbl_hardbroken.js
 // @include /^https://hardbroken.newtumbl.com/
-// @version  1.02
+// @version  1.03
 // @grant    none
 // @noframes
 // @description Helper for SC video DL from a newtumbl blog
@@ -67,7 +67,7 @@ var GRAVITY_DIRECT = ( obj , ...map ) => {
 var POST_ROOT = "div.block_body";
 var POST_VIDEO = 'div.post_part.part_video[type="7"]';
 var XPATH_VIDSRC = 'video source';
-var TEXT_REGEX = /sean ?cody ?\# ?(\d+ ?-.*)/i;
+var TEXT_REGEX = /(?:sean )?(?:cody )?\# ?(\d+ ?-.*)/i;
 var ILLEGAL_FILE_CHARS = /[/\\?%*:|"<>]/g;
 
 var VIDEO_KEYS = [];
