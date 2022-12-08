@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.21
+// @version  1.22
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -136,7 +136,7 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                         // resolution of the video), so we account for those possibilities here
                         if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
                             var aspects = ["240" , "720"];
-                            for( var a_i = 0 ; a_i < aspects.count ; a_i++ ){
+                            for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
                                 var d2 = document.createElement('div');
                                 d2.append(GRAVITY_LINK(
                                     CDN_ROOT + path[0][1] + "-" + aspects[a_i] + VID_EXTENSION ,
