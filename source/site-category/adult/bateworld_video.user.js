@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.20
+// @version  1.21
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -40,6 +40,7 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
 
 var CDN_ROOT = 'https://n2h5a5n4.ssl.hwcdn.net/';
 var VID_EXTENSION = '.mp4';
+var VIDEO_INDEX_BREAKPOINT = 101164;
 
 (function() {
     // Gravity health check
@@ -66,7 +67,7 @@ var VID_EXTENSION = '.mp4';
                 function(el){
                     // process video element
                     var src = el.src;
-                    var sMatch = [...src.matchAll(/\/(\d+)\..*$/igm)];
+                    var sMatch = [...src.matchAll(/\/(\d+)(?:-\d+)\..*$/igm)];
                     
                     var fileExt = src.split('.').pop();
                     var titMatch = [...title.matchAll(/^.* - (.*)'s video - (.*)$/igm)];
@@ -130,16 +131,21 @@ var VID_EXTENSION = '.mp4';
                             ref
                         ));
                         el.querySelector('td:nth-child(2)').append(d);
-
-                        if( parseInt(vnum) >= 100000 ){
-                            var d2 = document.createElement('div');
-                            d2.append(GRAVITY_LINK(
-                                CDN_ROOT + path[0][1] + "-720" + VID_EXTENSION ,
-                                '720',
-                                `${vnum} ${title}${VID_EXTENSION}`,
-                                ref
-                            ));
-                            el.querySelector('td:nth-child(2)').append(d2);
+                        // after a video ID index, the video filename formats changed to include
+                        // some kind of resolution parameter (though it doesn't track with the
+                        // resolution of the video), so we account for those possibilities here
+                        if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
+                            var aspects = ["240" , "720"];
+                            for( var a_i = 0 ; a_i < aspects.count ; a_i++ ){
+                                var d2 = document.createElement('div');
+                                d2.append(GRAVITY_LINK(
+                                    CDN_ROOT + path[0][1] + "-" + aspects[a_i] + VID_EXTENSION ,
+                                    aspects[a_i],
+                                    `${vnum} ${title}${VID_EXTENSION}`,
+                                    ref
+                                ));
+                                el.querySelector('td:nth-child(2)').append(d2);
+                            }
                         }
                     } catch(e){
                         console.error("Error in video div processing. ", e);
