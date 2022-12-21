@@ -21,19 +21,21 @@ var GRAVITY_CONFIG = {
 };
 var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
     text = text || "Download video";
+    // replace illegal characters from the filename provided to prevent downstream issues
+    var linkFileName = fileName.replace(/\//igm,"-");
     var link = document.createElement('a');
     link.class = "x_gravity_link";
     if( GRAVITY_ON ){
-        link.href = `http://${GRAVITY_CONFIG.host}:${GRAVITY_CONFIG.port}/?u=${encodeURIComponent(targetUrl)}&p=${encodeURIComponent(referer)}&fn=${encodeURIComponent(fileName)}`;
+        link.href = `http://${GRAVITY_CONFIG.host}:${GRAVITY_CONFIG.port}/?u=${encodeURIComponent(targetUrl)}&p=${encodeURIComponent(referer)}&fn=${encodeURIComponent(linkFileName)}`;
         link.innerHTML = `${GRAVITY_CONFIG.icon}&nbsp;${text}`;
     } else {
         link.href = targetUrl;
         link.innerHTML = `${GRAVITY_CONFIG.default_icon}&nbsp;${text}`;
     }
     if( ! fileName ){
-        link.setAttribute('download', fileName);
+        link.setAttribute('download', linkFileName);
     }
-    link.setAttribute('title' , fileName);
+    link.setAttribute('title' , linkFileName);
     // link.target = "_blank";
     return link;
 };
