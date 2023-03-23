@@ -40,6 +40,8 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
     return link;
 };
 
+// User script config
+var aspects = ["240" , "720" , "480"];
 var CDN_ROOT = 'https://n2h5a5n4.ssl.hwcdn.net/';
 var VID_EXTENSION = '.mp4';
 var VIDEO_INDEX_BREAKPOINT = 101164;
@@ -137,7 +139,6 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                         // some kind of resolution parameter (though it doesn't track with the
                         // resolution of the video), so we account for those possibilities here
                         if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
-                            var aspects = ["240" , "720"];
                             for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
                                 var d2 = document.createElement('div');
                                 d2.append(GRAVITY_LINK(
