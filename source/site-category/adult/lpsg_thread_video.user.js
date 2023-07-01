@@ -2,7 +2,7 @@
 // @name      LPSG - Threaded video helper
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
-// @version  1.01
+// @version  1.02
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -23,11 +23,12 @@ var do_work = () => {
     }
 };
 
-var make_src_url = (url_key) => {
+var make_src_url = (url_key , filetype) => {
     url_key = url_key || "";
-    if( url_key.length == 0 ) return;   
+    if( url_key.length == 0 ) return;  
+    filetype = filetype || "mp4";
     
-    return "https://cdn-videos.lpsg.com/data/video/" + url_key + ".mov";
+    return "https://cdn-videos.lpsg.com/data/video/" + url_key + "." + filetype;
 };
 
 var make_video = (poster_el) => {
