@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name      LPSG - Threaded video helper
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
-// @include /^https://.*\.?lpsg?\.com/threads/.*
-// @version  1.00
+// @include /^https://.*\.?lpsg?\.com/threads/.*/
+// @version  1.01
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
