@@ -2,7 +2,7 @@
 // @name      LPSG - Threaded video helper
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
-// @version  1.04
+// @version  1.05
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -11,8 +11,10 @@
 // CDN root
 const CDN_ROOT = 'https://www.lpsg.com';
 // Path to videos on the CDN
-const CDN_PATH = '/data/video/';
-
+const CDN_PATHS = {
+    primary: '/data/video/',
+    secondary: '/data/lsvideo/videos/'
+}
 // possible extensions for video src
 // these will be used to generate buttons
 const VID_EXTENSIONS = [
@@ -149,12 +151,13 @@ var remove_coverlays = (poster_container) => {
 }
 
 // Makes the source URL for the video, given the url key and filetype
-var make_src_url = (url_key , filetype) => {
+var make_src_url = (url_key , filetype , cdn_path) => {
     url_key = url_key || "";
+    cdn_path = cdn_path || CDN_PATHS.primary;
     if( url_key.length == 0 ) return;  
     filetype = filetype || "mp4";
     
-    return CDN_ROOT + CDN_PATH + url_key + "." + filetype;
+    return CDN_ROOT + cdn_path + url_key + "." + filetype;
 };
 
 // Generates the video and source elements based on the poster DOMElement
@@ -187,11 +190,18 @@ var get_poster_url = (poster_el) => {
 // Generates the video source URL given the poster URL and filetype
 var get_video_url_from_poster = ( poster_url , filetype ) => {
     var matches = [...poster_url.matchAll(/\/posters\/(.*?)(\..*)$/ig)];
+    var cdn_path = CDN_PATHS.primary;
+    if( matches.length < 1 ){
+        // this may be an older post, try a different regex
+        matches = [...poster_url.matchAll(/\/lsvideo\/thumbnails\/(.*?)(\..*)$/ig)];
+        cdn_path = CDN_PATHS.secondary;
+        if( matches.length < 1 ) return;
+    };
     var srcKey = matches[0][1] || "";
     
     if( srcKey.length == 0 ) return;
     
-    var srcUrl = make_src_url(srcKey , filetype);
+    var srcUrl = make_src_url(srcKey , filetype, cdn_path);
     return ( srcUrl.length > 0 ) ? srcUrl : null;
 }
 
