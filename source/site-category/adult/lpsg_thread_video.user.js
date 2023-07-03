@@ -2,7 +2,7 @@
 // @name      LPSG - Threaded video helper
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
-// @version  1.06
+// @version  1.07
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -49,7 +49,7 @@ div.btn-container {
     border: 1px dotted #111;
     border-radius: 10px;
     padding: 5px 8px;
-    margin-top: 10px;
+    margin-top: 10px 0x;
     max-width: fit-content;
 }
 .user-hidden {
