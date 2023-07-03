@@ -2,7 +2,7 @@
 // @name      LPSG - Threaded video helper
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
-// @version  1.05
+// @version  1.06
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -34,6 +34,7 @@ button.user-defined {
     font-size: 11px;
     margin: 1px;
     padding: 2px 5px;
+    min-width: 75px;
 }
 button.btn-pending {
     background-color: yellow;
@@ -48,6 +49,8 @@ div.btn-container {
     border: 1px dotted #111;
     border-radius: 10px;
     padding: 5px 8px;
+    margin-top: 10px;
+    max-width: fit-content;
 }
 .user-hidden {
     display:none;
