@@ -2,7 +2,8 @@
 // @name      LPSG - Threaded video helper
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
-// @version  1.07
+// @include /^https://.*\.?lpsg?\.com/gallery/.*/
+// @version  1.08
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -13,7 +14,8 @@ const CDN_ROOT = 'https://www.lpsg.com';
 // Path to videos on the CDN
 const CDN_PATHS = {
     primary: '/data/video/',
-    secondary: '/data/lsvideo/videos/'
+    secondary: '/data/lsvideo/videos/',
+    gallery: '/data/xfmg/',
 }
 // possible extensions for video src
 // these will be used to generate buttons
@@ -88,9 +90,10 @@ var check_url_availability = (url, el) => {
 }
 // actions when the button action was successful
 var btn_success = ( el ) => {
+    debugger;
     var poster = get_poster_from_btn(el);
     var data = el.getAttribute('data-format');
-    convert_poster_to_vid( poster , data );
+    convert_poster_to_vid( poster , data , el.getAttribute('data-xurl'));
     el.classList.add('btn-success');
 }
 // actions when the button action was unsuccessful
@@ -122,10 +125,11 @@ var btn_actuation = (el , data) => {
     var poster_el = el.parentElement.parentElement.querySelectorAll('div.video-easter-egg-poster img')[0];
     
     // make the proposed video URL 
-    var proposed_url = get_video_url_from_poster( get_poster_url(poster_el) , data);
-    
-    // check if it's good
-    check_url_availability(proposed_url , el);
+    var proposed_url = el.getAttribute('data-xurl');
+    if( proposed_url.length > 0 ){
+        // check if it's good
+        check_url_availability(proposed_url , el);
+    }
 }
 
 // Obtains the poster image element based on the button element provided (proximity lookup)
@@ -133,8 +137,9 @@ var get_poster_from_btn = (el) => {
     return el.parentElement.parentElement.querySelectorAll('div.video-easter-egg-poster img')[0];
 }
 // Converts a single poster container into a video
-var convert_poster_to_vid = (poster , filetype) => {
-    var video_element = make_video_from_poster(poster , filetype);
+var convert_poster_to_vid = (poster , filetype , srcUrl) => {
+    srcUrl = srcUrl || null;
+    var video_element = make_video_from_poster(poster , filetype , srcUrl);
     
     var poster_container = poster.parentElement.parentElement;
     if( video_element !== null ){
@@ -164,18 +169,19 @@ var make_src_url = (url_key , filetype , cdn_path) => {
 };
 
 // Generates the video and source elements based on the poster DOMElement
-var make_video_from_poster = (poster_el , filetype) => {
+var make_video_from_poster = (poster_el , filetype , srcUrl) => {
     var poster_url = get_poster_url( poster_el );
     if( poster_url.length == 0 ) return;
     
     var vid = document.createElement('video');
+    vid.setAttribute('preload' , 'metadata');
     vid.setAttribute('controls' , 'true');
     vid.setAttribute('data-poster', poster_url);
     vid.setAttribute('poster' , poster_url);
     vid.setAttribute('data-xf-init', 'video-init');
     
-    var srcUrl = get_video_url_from_poster( poster_url , filetype );
-    if( srcUrl.length == 0 ) return; 
+    srcUrl = srcUrl || get_video_url_from_poster( poster_url , filetype );
+    if( !(srcUrl) || srcUrl.length == 0 ) return; 
     
     var src = document.createElement('source');
     src.setAttribute('data-src' , srcUrl);
@@ -218,6 +224,11 @@ var do_work = () => {
         console.log("No posters found");
     } else {
         console.log( posters.length , "posters found, processing. . ." );
+        var isGallery = false;
+        if( [...window.location.href.matchAll(/gallery/g)].length > 0 ){
+            // this is a gallery page
+            isGallery = true;
+        }
         for( var i = 0 ; i < posters.length ; i++ ){
             // parent of the poster - inner wrapper
             var parentNode = posters[i].parentElement
@@ -229,11 +240,32 @@ var do_work = () => {
             // create all buttons
             for( var k = 0 ; k < VID_EXTENSIONS.length ; k++ ){
                 var btn = make_btn( VID_EXTENSIONS[k] , VID_EXTENSIONS[k]);
-                var poster_url = get_poster_url( posters[i].querySelectorAll('img')[0] )
                 btn.setAttribute('data-format' , VID_EXTENSIONS[k]); 
+                if( isGallery === true ){
+                    // parse the gallery poster
+                    var sd = document.querySelectorAll('script[type*="application/ld+json"]');
+                    var poster_url = '';
+                    var video_url = '';
+                    if( sd.length > 0 ){
+                        try {
+                            var j = JSON.parse( sd[0].innerText );
+                            poster_url = j.thumbnailUrl;
+                            video_url = j.contentUrl.replace("https://cdn-videos.lpsg.com" , CDN_ROOT);
+                        } catch(e){
+                            console.error('Error encountered:' , e);
+                        }
+                    } else {
+                        console.warn('No suitable data object found, skipping poster processing.');
+                    }
+                } else {
+                    // parse the thread poster
+                    poster_url = get_poster_url( posters[i].querySelectorAll('img')[0] )
+                    video_url = get_video_url_from_poster( poster_url , VID_EXTENSIONS[k] );
+                }
                 btn.setAttribute('data-posterurl' , poster_url );
-                btn.setAttribute('data-xurl' , get_video_url_from_poster( poster_url , VID_EXTENSIONS[k] ) );
+                btn.setAttribute('data-xurl' , video_url );
                 btnDiv.appendChild(btn);
+                if( isGallery === true ) break;
             }
             // add button box to wrapper node
             wrapperNode.appendChild( btnDiv );    
