@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.08
+// @version  1.09
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -59,6 +59,8 @@ div.btn-container {
 }
 `;
 
+const WRAPPER_CLASS = 'bbMediaWrapper';
+
 // adds the specified style as a stylesheet to the document
 var add_style = (style) => {
     var ss = document.createElement('style');
@@ -90,7 +92,7 @@ var check_url_availability = (url, el) => {
 }
 // actions when the button action was successful
 var btn_success = ( el ) => {
-    debugger;
+    // debugger;
     var poster = get_poster_from_btn(el);
     var data = el.getAttribute('data-format');
     convert_poster_to_vid( poster , data , el.getAttribute('data-xurl'));
@@ -145,6 +147,9 @@ var convert_poster_to_vid = (poster , filetype , srcUrl) => {
     if( video_element !== null ){
         remove_coverlays( poster_container );
         poster_container.appendChild(video_element);
+        // change class of poster container parent
+        poster_container.parentElement.classList.remove( WRAPPER_CLASS );
+        poster_container.parentElement.classList.add( WRAPPER_CLASS + '-app');
     }
 };
 
