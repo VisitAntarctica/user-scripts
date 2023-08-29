@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.25
+// @version  1.26
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -134,6 +134,9 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                             `${vnum} ${title}${VID_EXTENSION}`,
                             ref
                         ));
+                        var newp = document.createElement('p');
+                        newp.innerHTML = `<em>${vnum}</em>`;
+                        d.append( newp );
                         el.querySelector('td:nth-child(2)').append(d);
                         // after a video ID index, the video filename formats changed to include
                         // some kind of resolution parameter (though it doesn't track with the
