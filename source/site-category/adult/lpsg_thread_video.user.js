@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.09
+// @version  1.10
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -22,7 +22,8 @@ const CDN_PATHS = {
 const VID_EXTENSIONS = [
     'mp4',
     'mov',
-    'm4v'
+    'm4v',
+    'webm'
 ];
 
 // Style for elements manipulated by the userscript
