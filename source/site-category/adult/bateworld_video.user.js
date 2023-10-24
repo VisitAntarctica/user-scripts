@@ -158,5 +158,56 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                 }
             );
         });
+        var VIDEO_DIVS_NEW = ['div#videoTabFrame.visible-lg > div.video_box > div'];
+        VIDEO_DIVS_NEW.forEach( (qs) => {
+            document.querySelectorAll(qs).forEach(
+                function(el){
+                    try {
+                        // get video title
+                        var titleEl = el.querySelector('div:nth-child(2) > a');
+                        var title = titleEl.textContent.trim();
+                        var ref = titleEl.getAttribute('href');
+                        // get thumb path 
+                        var imgSrc = el.querySelector('div a img').src;
+                        var path = [...imgSrc.matchAll(/uploads_video\/(.*)_thumb.jpg$/igm)];
+                        // get video ID number
+                        var vMatch = path[0][1].match(/[^\d](\d+)$/);
+                        var vnum = vMatch[1];
+                        
+                        // create elements
+                        var d = document.createElement('div');
+                        d.append(GRAVITY_LINK( 
+                            CDN_ROOT + path[0][1] + VID_EXTENSION ,
+                            'Download',
+                            `${vnum} ${title}${VID_EXTENSION}`,
+                            ref
+                        ));
+                        var newp = document.createElement('p');
+                        newp.addClass('pull-right');
+                        newp.innerHTML = `<em>${vnum}</em>`;
+                        d.append( newp );
+                        el.appendChild( d );
+
+                        // after a video ID index, the video filename formats changed to include
+                        // some kind of resolution parameter (though it doesn't track with the
+                        // resolution of the video), so we account for those possibilities here
+                        if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
+                            for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
+                                var d2 = document.createElement('div');
+                                d2.append(GRAVITY_LINK(
+                                    CDN_ROOT + path[0][1] + "-" + aspects[a_i] + VID_EXTENSION ,
+                                    aspects[a_i],
+                                    `${vnum} ${title}${VID_EXTENSION}`,
+                                    ref
+                                ));
+                                el.appendChild( d2 );
+                            }
+                        }
+                    } catch(e){
+                        console.error("Error in video div processing. ", e);
+                    }
+                }
+            );
+        });
     //}, false);
 })();
