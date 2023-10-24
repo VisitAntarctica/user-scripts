@@ -71,8 +71,7 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                 function(el){
                     // process video element
                     var src = el.src;
-                    var sMatch = [...src.matchAll(/\/(\d+)(?:-\d+)\..*$/igm)];
-                    
+                    var sMatch = [...src.matchAll(/\/(\d+)(?:-\d+)?\..*$/igm)];
                     var fileExt = src.split('.').pop();
                     var titMatch = [...title.matchAll(/^.* - (.*)'s video - (.*)$/igm)];
                     //var m = [...t.matchAll(/^.* - (.*)'s video - (.*)$/igm)]; 
