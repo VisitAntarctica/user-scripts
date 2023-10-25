@@ -41,7 +41,11 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
 };
 
 // User script config
-var aspects = ["240" , "720" , "480"];
+var aspects = [
+    { key: "240" }, 
+    { key: "720" },
+    { key: "480" }
+];
 var CDN_ROOT = 'https://n2h5a5n4.ssl.hwcdn.net/';
 var VID_EXTENSION = '.mp4';
 var VIDEO_INDEX_BREAKPOINT = 101164;
@@ -103,6 +107,18 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                     }
                 );
         }, 3000);    
+        var makePanelLink = ( title , vnum , path , href , label ) => {
+            label = label || "Download";
+            // create elements
+            var d = document.createElement('div');
+            d.append(GRAVITY_LINK( 
+                CDN_ROOT + path + VID_EXTENSION ,
+                label,
+                `${vnum} ${title}${VID_EXTENSION}`,
+                href
+            ));
+            return d;
+        };
         // For every video row in the related videos panel, show a download link (div.video_row)
         // For every video row  in the videos tab, show a download link (div.videoTab)
         var VIDEO_DIVS = ['div.video_row' , 'div.videoTab'];
@@ -120,38 +136,24 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                         // get video ID number
                         var vMatch = path[0][1].match(/[^\d](\d+)$/);
                         var vnum = vMatch[1];
-                        // create elements
-                        var d = document.createElement('div');
-                        // var link = document.createElement('a');
-                        // link.href = CDN_ROOT + path[0][1] + VID_EXTENSION;
-                        // link.style = "padding-left: 15px;";
-                        // link.textContent = 'Download';
-                        // link.target = "_blank";
-                        d.append(GRAVITY_LINK( 
-                            CDN_ROOT + path[0][1] + VID_EXTENSION ,
-                            'Download',
-                            `${vnum} ${title}${VID_EXTENSION}`,
-                            ref
-                        ));
-                        var newp = document.createElement('p');
-                        newp.innerHTML = `<em>${vnum}</em>`;
-                        d.append( newp );
-                        el.querySelector('td:nth-child(2)').append(d);
-                        // after a video ID index, the video filename formats changed to include
+
+                        /* make the links */ 
+                        // after a certain video ID index, the video filename formats changed to include
                         // some kind of resolution parameter (though it doesn't track with the
                         // resolution of the video), so we account for those possibilities here
                         if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
                             for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
-                                var d2 = document.createElement('div');
-                                d2.append(GRAVITY_LINK(
-                                    CDN_ROOT + path[0][1] + "-" + aspects[a_i] + VID_EXTENSION ,
-                                    aspects[a_i],
-                                    `${vnum} ${title}${VID_EXTENSION}`,
-                                    ref
-                                ));
+                                var d2 = makePanelLink( title , vnum , path[0][1] + "-" + aspects[a_i].key , ref , aspects[a_i].key);
                                 el.querySelector('td:nth-child(2)').append(d2);
                             }
                         }
+
+                        // make the default download link
+                        var d = makePanelLink( title , vnum , path[0][1] , ref );
+                        var newp = document.createElement('p');
+                        newp.innerHTML = `<em>${vnum}</em>`;
+                        d.append( newp );
+                        el.querySelector('td:nth-child(2)').append(d);
                     } catch(e){
                         console.error("Error in video div processing. ", e);
                     }
@@ -174,32 +176,20 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                         var vMatch = path[0][1].match(/[^\d](\d+)$/);
                         var vnum = vMatch[1];
                         
-                        // create elements
-                        var d = document.createElement('div');
-                        d.append(GRAVITY_LINK( 
-                            CDN_ROOT + path[0][1] + VID_EXTENSION ,
-                            'Download',
-                            `${vnum} ${title}${VID_EXTENSION}`,
-                            ref
-                        ));
+                        // make default link
+                        var d = makePanelLink( title , vnum , path[0][1] , ref );
                         var newp = document.createElement('p');
                         newp.classList.add( 'pull-right' );
                         newp.innerHTML = `<em>${vnum}</em>`;
                         d.append( newp );
                         el.appendChild( d );
 
-                        // after a video ID index, the video filename formats changed to include
+                        // after a certain video ID index, the video filename formats changed to include
                         // some kind of resolution parameter (though it doesn't track with the
                         // resolution of the video), so we account for those possibilities here
                         if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
                             for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
-                                var d2 = document.createElement('div');
-                                d2.append(GRAVITY_LINK(
-                                    CDN_ROOT + path[0][1] + "-" + aspects[a_i] + VID_EXTENSION ,
-                                    aspects[a_i],
-                                    `${vnum} ${title}${VID_EXTENSION}`,
-                                    ref
-                                ));
+                                var d2 = makePanelLink( title , vnum , path[0][1] + "-" + aspects[a_i].key , ref , aspects[a_i].key);
                                 el.appendChild( d2 );
                             }
                         }
