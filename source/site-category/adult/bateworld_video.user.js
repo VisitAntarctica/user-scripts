@@ -70,22 +70,22 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
     //  source video file
     //window.addEventListener("load", function(){ 
         // for all the video elements in the page
-        window.setTimeout(() => {
-            document.querySelectorAll('video').forEach(
-                function(el){
-                    // process video element
-                    var src = el.src;
-                    var sMatch = [...src.matchAll(/\/(\d+)(?:-\d+)?\..*$/igm)];
-                    var fileExt = src.split('.').pop();
-                    var titMatch = [...title.matchAll(/^.* - (.*)'s video - (.*)$/igm)];
-                    //var m = [...t.matchAll(/^.* - (.*)'s video - (.*)$/igm)]; 
-                    var fileLabel = "";
-                    if( titMatch.length >= 1 && titMatch[0].length >= 3 ){
-                        // valid capture, set the file label
-                        /*fileLabel = ( 
-                            titMatch.length > 0 ? 
-                            'bw_' + titMatch[0][1] + '_' + titMatch[0][2] + '.' + fileExt:
-                            title
+    var INTERVAL_HANDLE = window.setInterval(() => {
+        document.querySelectorAll('video').forEach(
+            function(el){
+                // process video element
+                var src = el.src;
+                var sMatch = [...src.matchAll(/\/(\d+)(?:-\d+)?\..*$/igm)];
+                var fileExt = src.split('.').pop();
+                var titMatch = [...title.matchAll(/^.* - (.*)'s video - (.*)$/igm)];
+                //var m = [...t.matchAll(/^.* - (.*)'s video - (.*)$/igm)]; 
+                var fileLabel = "";
+                if( titMatch.length >= 1 && titMatch[0].length >= 3 ){
+                    // valid capture, set the file label
+                    /*fileLabel = ( 
+                        titMatch.length > 0 ? 
+                        'bw_' + titMatch[0][1] + '_' + titMatch[0][2] + '.' + fileExt:
+                        title
                         ); */
                         fileLabel = ( 
                             titMatch.length > 0 ? 
@@ -104,6 +104,7 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                     document.querySelector('div.page_header').append(
                         GRAVITY_LINK(src, 'Download', fileLabel , document.location)
                         );
+                clearInterval( INTERVAL_HANDLE );
                     }
                 );
         }, 3000);    
