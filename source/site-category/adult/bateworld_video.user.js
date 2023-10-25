@@ -16,7 +16,7 @@ var GRAVITY_CONFIG = {
     'host': 'localhost',
     'port': '5050',
     'state': null,
-    'icon': '&#128371;',
+    'icon': '&#10044;',
     'default_icon':'&#128279;' 
 };
 var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
