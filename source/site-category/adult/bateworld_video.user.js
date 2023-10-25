@@ -91,32 +91,32 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                             titMatch.length > 0 ? 
                             `${sMatch[0][1]} ${titMatch[0][2].trim()}.${fileExt}`:
                             title
-                        );
-                    } else {
-                        fileLabel = title;
-                    }
-                    /*var link = document.createElement('a');
-                    link.href = src;
-                    link.style = "padding-left: 15px;";
-                    link.textContent = "Download video"
-                    link.setAttribute('download', fileLabel);*/
-                    
-                    document.querySelector('div.page_header').append(
-                        GRAVITY_LINK(src, 'Download', fileLabel , document.location)
-                        );
-                clearInterval( INTERVAL_HANDLE );
-                    }
+                            );
+                } else {
+                    fileLabel = title;
+                }
+                /*var link = document.createElement('a');
+                link.href = src;
+                link.style = "padding-left: 15px;";
+                link.textContent = "Download video"
+                link.setAttribute('download', fileLabel);*/
+                
+                document.querySelector('div.page_header').append(
+                    GRAVITY_LINK(src, 'Download', fileLabel , document.location)
                 );
-        }, 3000);    
-        var makePanelLink = ( title , vnum , path , href , label ) => {
-            label = label || "Download";
-            // create elements
-            var d = document.createElement('div');
-            d.append(GRAVITY_LINK( 
-                CDN_ROOT + path + VID_EXTENSION ,
-                label,
-                `${vnum} ${title}${VID_EXTENSION}`,
-                href
+                clearInterval( INTERVAL_HANDLE );
+            }
+        );
+    }, 3000);    
+    var makePanelLink = ( title , vnum , path , href , label ) => {
+        label = label || "Download";
+        // create elements
+        var d = document.createElement('div');
+        d.append(GRAVITY_LINK( 
+            CDN_ROOT + path + VID_EXTENSION ,
+            label,
+            `${vnum} ${title}${VID_EXTENSION}`,
+            href
             ));
             return d;
         };
@@ -137,7 +137,7 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                         // get video ID number
                         var vMatch = path[0][1].match(/[^\d](\d+)$/);
                         var vnum = vMatch[1];
-
+                        
                         /* make the links */ 
                         // after a certain video ID index, the video filename formats changed to include
                         // some kind of resolution parameter (though it doesn't track with the
@@ -148,7 +148,7 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                                 el.querySelector('td:nth-child(2)').append(d2);
                             }
                         }
-
+                        
                         // make the default download link
                         var d = makePanelLink( title , vnum , path[0][1] , ref );
                         var newp = document.createElement('p');
@@ -159,46 +159,46 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                         console.error("Error in video div processing. ", e);
                     }
                 }
-            );
-        });
-        var VIDEO_DIVS_NEW = ['div#videoTabFrame.visible-lg > div.video_box > div'];
-        VIDEO_DIVS_NEW.forEach( (qs) => {
-            document.querySelectorAll(qs).forEach(
-                function(el){
-                    try {
-                        // get video title
-                        var titleEl = el.querySelector('div:nth-child(2) > a');
-                        var title = titleEl.textContent.trim();
-                        var ref = titleEl.getAttribute('href');
-                        // get thumb path 
-                        var imgSrc = el.querySelector('div a img').src;
-                        var path = [...imgSrc.matchAll(/uploads_video\/(.*)_thumb.jpg$/igm)];
-                        // get video ID number
-                        var vMatch = path[0][1].match(/[^\d](\d+)$/);
-                        var vnum = vMatch[1];
-                        
-                        // make default link
-                        var d = makePanelLink( title , vnum , path[0][1] , ref );
-                        var newp = document.createElement('p');
-                        newp.classList.add( 'pull-right' );
-                        newp.innerHTML = `<em>${vnum}</em>`;
-                        d.append( newp );
-                        el.appendChild( d );
-
-                        // after a certain video ID index, the video filename formats changed to include
-                        // some kind of resolution parameter (though it doesn't track with the
-                        // resolution of the video), so we account for those possibilities here
-                        if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
-                            for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
-                                var d2 = makePanelLink( title , vnum , path[0][1] + "-" + aspects[a_i].key , ref , aspects[a_i].key);
-                                el.appendChild( d2 );
+                );
+            });
+            var VIDEO_DIVS_NEW = ['div#videoTabFrame.visible-lg > div.video_box > div'];
+            VIDEO_DIVS_NEW.forEach( (qs) => {
+                document.querySelectorAll(qs).forEach(
+                    function(el){
+                        try {
+                            // get video title
+                            var titleEl = el.querySelector('div:nth-child(2) > a');
+                            var title = titleEl.textContent.trim();
+                            var ref = titleEl.getAttribute('href');
+                            // get thumb path 
+                            var imgSrc = el.querySelector('div a img').src;
+                            var path = [...imgSrc.matchAll(/uploads_video\/(.*)_thumb.jpg$/igm)];
+                            // get video ID number
+                            var vMatch = path[0][1].match(/[^\d](\d+)$/);
+                            var vnum = vMatch[1];
+                            
+                            // make default link
+                            var d = makePanelLink( title , vnum , path[0][1] , ref );
+                            var newp = document.createElement('p');
+                            newp.classList.add( 'pull-right' );
+                            newp.innerHTML = `<em>${vnum}</em>`;
+                            d.append( newp );
+                            el.appendChild( d );
+                            
+                            // after a certain video ID index, the video filename formats changed to include
+                            // some kind of resolution parameter (though it doesn't track with the
+                            // resolution of the video), so we account for those possibilities here
+                            if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
+                                for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
+                                    var d2 = makePanelLink( title , vnum , path[0][1] + "-" + aspects[a_i].key , ref , aspects[a_i].key);
+                                    el.appendChild( d2 );
+                                }
                             }
+                        } catch(e){
+                            console.error("Error in video div processing. ", e);
                         }
-                    } catch(e){
-                        console.error("Error in video div processing. ", e);
                     }
-                }
-            );
-        });
-    //}, false);
-})();
+                    );
+                });
+                //}, false);
+            })();
