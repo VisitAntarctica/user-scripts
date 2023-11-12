@@ -267,6 +267,15 @@ var do_work = () => {
                     // parse the thread poster
                     poster_url = get_poster_url( posters[i].querySelectorAll('img')[0] )
                     video_url = get_video_url_from_poster( poster_url , VID_EXTENSIONS[k] );
+                    // hide all coverlays on the page
+                    var coverClasses = ['video-easter-egg-blocker', 'video-easter-egg-overlay'];
+                    coverClasses.forEach(function( className ){
+                        var coverEls = document.querySelectorAll(`div[class=${className}]`);
+                        for( var k = coverEls.length - 1 ; k >= 0 ; k--){
+                            var tempEl = coverEls[k];
+                            tempEl.classList.add('user-hidden');
+                        }
+                    });
                 }
                 btn.setAttribute('data-posterurl' , poster_url );
                 btn.setAttribute('data-xurl' , video_url );
