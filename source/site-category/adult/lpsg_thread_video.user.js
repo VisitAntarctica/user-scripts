@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.11
+// @version  1.12
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -31,7 +31,7 @@ const BTN_STYLE = `
 button.user-defined {
     border: 1px solid #333;
     border-radius: 8px;
-    background-color: #ddd;
+    background-color: #eee;
     color: #000;
     font-family: Helvetica, Arial, sans-serif;
     font-size: 11px;
@@ -40,19 +40,19 @@ button.user-defined {
     min-width: 75px;
 }
 button.btn-pending {
-    background-color: yellow;
+    background-color: #F0D300;
 }
 button.btn-success {
-    background-color: green;
+    background-color: #93F018;
 }
 button.btn-failure {
-    background-color: red;
+    background-color: #F01000;
 }
 div.btn-container {
-    border: 1px dotted #111;
+    border: 1px dotted #999;
     border-radius: 10px;
-    padding: 5px 8px;
-    margin-top: 10px 0x;
+    padding: 3px 5px;
+    margin-top: 10px;
     max-width: fit-content;
 }
 .user-hidden {
