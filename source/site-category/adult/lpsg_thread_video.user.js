@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.12
+// @version  1.13
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -28,7 +28,8 @@ const VID_EXTENSIONS = [
 
 // Style for elements manipulated by the userscript
 const BTN_STYLE = `
-button.user-defined {
+button.user-defined,
+a.user-defined {
     border: 1px solid #333;
     border-radius: 8px;
     background-color: #eee;
@@ -39,13 +40,24 @@ button.user-defined {
     padding: 2px 5px;
     min-width: 75px;
 }
-button.btn-pending {
+a.user-defined {
+    display: inline-block;
+    min-height: 16px;
+}
+button.btn-secondary, 
+a.btn-secondary {
+    background-color: #FAF948;
+}
+button.btn-pending,
+a.btn-pending {
     background-color: #F0D300;
 }
-button.btn-success {
+button.btn-success,
+a.btn-success {
     background-color: #93F018;
 }
-button.btn-failure {
+button.btn-failure,
+a.btn-failure {
     background-color: #F01000;
 }
 div.btn-container {
@@ -94,14 +106,36 @@ var check_url_availability = (url, el) => {
 // actions when the button action was successful
 var btn_success = ( el ) => {
     // debugger;
-    var poster = get_poster_from_btn(el);
-    var data = el.getAttribute('data-format');
-    convert_poster_to_vid( poster , data , el.getAttribute('data-xurl'));
+    // make the 'convert to video' button
+    var btn = el.cloneNode();
+    btn.innerText = "Embed video"
+    btn.onclick = function(e){
+        btn_convert_to_vid( this );
+        e = e || window.event;
+        e.preventDefault();
+    }
+    el.parentElement.insertBefore( btn , el );
+    // make the link to the source
+    var href = document.createElement('a');
+    href.setAttribute( 'href' , el.getAttribute('data-xurl'));
+    href.setAttribute('target' , '_blank');
+    href.setAttribute('download' , '');
+    href.setAttribute('class', 'user-defined btn-secondary');
+    href.innerHTML = "Media source";
+    el.parentElement.insertBefore( href , btn );
+    
+    // mark the button successful
     el.classList.add('btn-success');
 }
 // actions when the button action was unsuccessful
 var btn_failure = ( el ) => {
     el.classList.add('btn-failure');
+}
+// action when
+var btn_convert_to_vid = ( el ) => {
+    var poster = get_poster_from_btn(el);
+    var data = el.getAttribute('data-format');
+    convert_poster_to_vid( poster , data , el.getAttribute('data-xurl'));
 }
 
 // Make the buttons
