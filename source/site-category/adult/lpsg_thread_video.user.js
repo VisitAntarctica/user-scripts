@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.13
+// @version  1.14
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -120,6 +120,7 @@ var btn_success = ( el ) => {
     href.setAttribute( 'href' , el.getAttribute('data-xurl'));
     href.setAttribute('target' , '_blank');
     href.setAttribute('download' , '');
+    href.setAttribute('onclick', 'javascript:return false;');
     href.setAttribute('class', 'user-defined btn-secondary');
     href.innerHTML = "Media source";
     el.parentElement.insertBefore( href , btn );
