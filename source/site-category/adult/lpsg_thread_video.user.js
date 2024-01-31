@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.16
+// @version  1.17
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -117,19 +117,25 @@ var btn_success = ( el ) => {
     el.parentElement.insertBefore( btn , el );
 
     // try and find a title in the post
-    var topContainer = el.parentElement.parentElement;
-    // first try: previous node
     var downloadTag = '';
-    var firstTry = topContainer.previousElementSibling.textContent;
-    if( firstTry.length > 0 ){
-        downloadTag = firstTry;
-    } else {
-        // second try: next previous sibling
-        var secondTry = topContainer.previousElementSibling.previousSibling.textContent;
-        if( secondTry.length > 0 ){
-            downloadTag = secondTry;
+    try {
+        var topContainer = el.parentElement.parentElement;
+        // first try: previous node
+        
+        var firstTry = topContainer.previousElementSibling.textContent;
+        if( firstTry.length > 0 ){
+            downloadTag = firstTry;
+        } else {
+            // second try: next previous sibling
+            var secondTry = topContainer.previousElementSibling.previousSibling.textContent;
+            if( secondTry.length > 0 ){
+                downloadTag = secondTry;
+            }
         }
+    } catch(e){
+        console.log(e);
     }
+    
     // make the link to the source
     var href = document.createElement('a');
     href.setAttribute( 'href' , el.getAttribute('data-xurl'));
