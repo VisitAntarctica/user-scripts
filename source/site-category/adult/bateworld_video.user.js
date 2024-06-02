@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.31
+// @version  1.32
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -46,7 +46,7 @@ var aspects = [
     { key: "720" },
     { key: "480" }
 ];
-var CDN_ROOT = 'https://n2h5a5n4.ssl.hwcdn.net/';
+var CDN_ROOT = 'https://cdn.batworld.com/';
 var VID_EXTENSION = '.mp4';
 var VIDEO_INDEX_BREAKPOINT = 101164;
 
