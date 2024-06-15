@@ -2,7 +2,7 @@
 // @name      Bateworld - Photo
 // @namespace /user-scripts/source/site-category/adult/bateworld_photo.user.js 
 // @include /^https://.*\.?bateworld?\.com/album(_group)?.php/
-// @version  1.02
+// @version  1.03
 // @grant    none
 // @noframes
 // @description Photo tools for Bateworld
@@ -36,7 +36,7 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
     return link;
 };
 
-var CDN_ROOT = 'https://n2h5a5n4.ssl.hwcdn.net/';
+var CDN_ROOT = 'https://cdn.bateworld.com/';
 var VID_EXTENSION = '.mp4';
 var PIC_EXTENSION = '.jpg';
 
