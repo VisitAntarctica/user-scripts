@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.33
+// @version  1.34
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -68,46 +68,69 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
     // For every video element found in the page, 
     //  use page details to create an HREF to the 
     //  source video file
-    //window.addEventListener("load", function(){ 
-        // for all the video elements in the page
-    var INTERVAL_HANDLE = window.setInterval(() => {
-        document.querySelectorAll('video').forEach(
-            function(el){
-                // process video element
-                var src = el.src;
-                var sMatch = [...src.matchAll(/\/(\d+)(?:-\d+)?\..*$/igm)];
-                var fileExt = src.split('.').pop();
-                var titMatch = [...title.matchAll(/^.* - (.*)'s video - (.*)$/igm)];
-                //var m = [...t.matchAll(/^.* - (.*)'s video - (.*)$/igm)]; 
-                var fileLabel = "";
-                if( titMatch.length >= 1 && titMatch[0].length >= 3 ){
-                    // valid capture, set the file label
-                    /*fileLabel = ( 
-                        titMatch.length > 0 ? 
-                        'bw_' + titMatch[0][1] + '_' + titMatch[0][2] + '.' + fileExt:
-                        title
-                        ); */
-                        fileLabel = ( 
-                            titMatch.length > 0 ? 
-                            `${sMatch[0][1]} ${titMatch[0][2].trim()}.${fileExt}`:
-                            title
-                            );
-                } else {
-                    fileLabel = title;
-                }
-                /*var link = document.createElement('a');
-                link.href = src;
-                link.style = "padding-left: 15px;";
-                link.textContent = "Download video"
-                link.setAttribute('download', fileLabel);*/
-                
-                document.querySelector('div.page_header').append(
-                    GRAVITY_LINK(src, 'Download', fileLabel , document.location)
-                );
-                clearInterval( INTERVAL_HANDLE );
-            }
+    var makeVideoElementLink = function(el , INTERVAL_HANDLE){
+        INTERVAL_HANDLE = INTERVAL_HANDLE || null;
+        // process video element
+        var src = el.src;
+        var sMatch = [...src.matchAll(/\/(\d+)(?:-\d+)?\..*$/igm)];
+        var fileExt = src.split('.').pop();
+        var titMatch = [...title.matchAll(/^.* - (.*)'s video - (.*)$/igm)];
+        //var m = [...t.matchAll(/^.* - (.*)'s video - (.*)$/igm)]; 
+        var fileLabel = "";
+        if( titMatch.length >= 1 && titMatch[0].length >= 3 ){
+            // valid capture, set the file label
+            /*fileLabel = ( 
+                titMatch.length > 0 ? 
+                'bw_' + titMatch[0][1] + '_' + titMatch[0][2] + '.' + fileExt:
+                title
+                ); */
+                fileLabel = ( 
+                    titMatch.length > 0 ? 
+                    `${sMatch[0][1]} ${titMatch[0][2].trim()}.${fileExt}`:
+                    title
+                    );
+        } else {
+            fileLabel = title;
+        }
+        /*var link = document.createElement('a');
+        link.href = src;
+        link.style = "padding-left: 15px;";
+        link.textContent = "Download video"
+        link.setAttribute('download', fileLabel);*/
+        
+        document.querySelector('div.page_header').append(
+            GRAVITY_LINK(src, 'Download', fileLabel , document.location)
         );
-    }, 3000);
+        if( INTERVAL_HANDLE ) clearInterval( INTERVAL_HANDLE );
+    }
+    // look for a video playlist configuration on the page 
+    var mpl = document.querySelectorAll('.mvp-playlist-item');
+    var mplsuccess = false;
+    if( mpl.length > 0 ){
+        // we have playlist items
+        try {
+            if( mpl[0].dataset.path ){
+                var dataobj = JSON.parse( mpl[0].dataset.path );
+                if( dataobj.length > 0 && dataobj[0].hasOwnProperty('mp4')){
+                    makeVideoElementLink( {'src' : dataobj[0].mp4} );
+                    mplsuccess = true;
+                }
+            }
+        } catch(e){
+            console.log(e);
+            mplsuccess = false;
+        }
+    }
+    if( mplsuccess == false ){
+        // for all the video elements in the page
+        var INTERVAL_HANDLE = window.setInterval(() => {
+            document.querySelectorAll('video').forEach(
+                makeVideoElementLink( el , INTERVAL_HANDLE )
+            );
+        }, 3000);
+    }
+    //window.addEventListener("load", function(){ 
+    
     var makePanelLink = ( title , vnum , path , href , label ) => {
         label = label || "Download";
         // create elements
