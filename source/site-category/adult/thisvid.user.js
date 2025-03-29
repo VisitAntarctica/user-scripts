@@ -32,7 +32,7 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
         link.href = targetUrl;
         link.innerHTML = `${GRAVITY_CONFIG.default_icon}&nbsp;${text}`;
     }
-    if( ! fileName ){
+    if( GRAVITY_ON == false || ! fileName ){
         link.setAttribute('download', linkFileName);
     }
     link.setAttribute('title' , linkFileName);
