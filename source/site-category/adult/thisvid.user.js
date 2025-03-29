@@ -2,7 +2,7 @@
 // @name      Thisvid - Direct video source generator
 // @namespace /user-scripts/source/site-category/adult/thisvid.user.js
 // @include /^https://.*\.?thisvid?\.com/videos/
-// @version  1.00
+// @version  1.01
 // @grant    none
 // @noframes
 // @description Calculates direct video source URLs from the page contents and surfaces it to the user
