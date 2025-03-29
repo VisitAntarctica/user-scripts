@@ -64,11 +64,7 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
               'bw_' + titMatch[0][1] + '_' + titMatch[0][2] + '.' + fileExt:
               title
               ); */
-              fileLabel = ( 
-                  sMatch.length > 0 ? 
-                  `${title}-${sMatch[0][1]}.${fileExt}`:
-                  title
-                  );
+              fileLabel = `${title}-${sMatch[0][1]}.${fileExt}`;
       } else {
           fileLabel = title;
       }
