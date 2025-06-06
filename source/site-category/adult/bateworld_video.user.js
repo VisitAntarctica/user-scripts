@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.39
+// @version  1.40
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -168,7 +168,7 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                     // resolution of the video), so we account for those possibilities here
                     if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
                         for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
-                            if( ! aspects[a_i].hasOwnProperty('breakpoint') || parseInt(aspects[a_i.breakpoint]) <= parseInt(vnum) ){
+                            if( ! aspects[a_i].hasOwnProperty('breakpoint') || parseInt(aspects[a_i].breakpoint) <= parseInt(vnum) ){
                                 var d2 = makePanelLink( title , vnum , path[0][1] + "-" + aspects[a_i].key , ref , aspects[a_i].key);
                                 el.querySelector('td:nth-child(2)').append(d2);
                             }
@@ -215,7 +215,7 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                     // resolution of the video), so we account for those possibilities here
                     if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
                         for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
-                            if( ! aspects[a_i].hasOwnProperty('breakpoint') || parseInt(aspects[a_i.breakpoint]) <= parseInt(vnum) ){
+                            if( ! aspects[a_i].hasOwnProperty('breakpoint') || parseInt(aspects[a_i].breakpoint) <= parseInt(vnum) ){
                                 var d2 = makePanelLink( title , vnum , `uploads_video/${path[0][1]}-${aspects[a_i].key}` , ref , aspects[a_i].key);
                                 el.appendChild( d2 );
                             }
