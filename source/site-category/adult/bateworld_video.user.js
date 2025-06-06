@@ -4,14 +4,14 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.35
+// @version  1.36
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
 // ==/UserScript==
 
 // Gravity downloader config
-var GRAVITY_ON = true;
+var GRAVITY_ON = false;
 var GRAVITY_CONFIG = {
     'host': 'localhost',
     'port': '5050',
