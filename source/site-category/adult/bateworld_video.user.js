@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.37
+// @version  1.38
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -43,7 +43,8 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
 // User script config
 var aspects = [
     { key: "240" }, 
-    { key: "720" },
+    { key: "720", breakpoint: 101164 },
+    { key: "1440", breakpoint: 150000 },
     { key: "480" }
 ];
 var CDN_ROOT = 'https://cloudcdn.bateworld.com/';
@@ -167,6 +168,7 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                         // resolution of the video), so we account for those possibilities here
                         if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
                             for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
+                            if( ! aspects[a_i].hasOwnProperty('breakpoint') || parseInt(aspects[a_i.breakpoint]) >= parseInt(vnum) ){
                                 var d2 = makePanelLink( title , vnum , path[0][1] + "-" + aspects[a_i].key , ref , aspects[a_i].key);
                                 el.querySelector('td:nth-child(2)').append(d2);
                             }
@@ -213,10 +215,12 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
                             // resolution of the video), so we account for those possibilities here
                             if( parseInt(vnum) >= VIDEO_INDEX_BREAKPOINT ){
                                 for( var a_i = 0 ; a_i < aspects.length ; a_i++ ){
-                                    var d2 = makePanelLink( title , vnum , `uploads_video/${path[0][1]}-${aspects[a_i].key}` , ref , aspects[a_i].key);
-                                    el.appendChild( d2 );
-                                }
+                            if( ! aspects[a_i].hasOwnProperty('breakpoint') || parseInt(aspects[a_i.breakpoint]) >= parseInt(vnum) ){
+                                var d2 = makePanelLink( title , vnum , `uploads_video/${path[0][1]}-${aspects[a_i].key}` , ref , aspects[a_i].key);
+                                el.appendChild( d2 );
                             }
+                        }
+                    }
                         } catch(e){
                             console.error("Error in video div processing. ", e);
                         }
