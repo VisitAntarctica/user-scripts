@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.36
+// @version  1.37
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -32,9 +32,9 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
         link.href = targetUrl;
         link.innerHTML = `${GRAVITY_CONFIG.default_icon}&nbsp;${text}`;
     }
-    if( ! fileName ){
+    // if( ! fileName ){
         link.setAttribute('download', linkFileName);
-    }
+    // }
     link.setAttribute('title' , linkFileName);
     // link.target = "_blank";
     return link;
