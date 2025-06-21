@@ -1,31 +1,15 @@
 // ==UserScript==
 // @name      Stash enhancements
 // @namespace /user-scripts/source/site-category/adult/stash_enhancements.user.js 
-// @version  1.41
+// @version  1.42
 // @grant    none
 // @noframes
 // @description UI/UX enhancements that make stash work better for this user
 // ==/UserScript==
 
 // User script config
-var pageTypes = [{
-        matchURL: '/scenes/',
-        infoBoxSelector: 'dl.scene-file-info.details-list',
-        functions: [
-            'showFullPath'
-        ]
-    },
-    {
-        matchURL: '/images/',
-        infoBoxSelector: 'dl.image-file-info.details-list',
-        functions: [
-            'showFullPath'
-        ]
-    }
-];
 var filePathRegex = new RegExp(/(?:[\\\/]+([^\\\/]*))+?/,"ig");
 
-// User script execution
 var showFullPath = function( pageType ){
     /*
      Container identifier = 
@@ -65,7 +49,7 @@ var processPage = function( INTERVAL_HANDLE ){
             // var type = pageTypes[index];
             if( location.indexOf( type.matchURL ) !== -1 ){
                 type.functions.forEach( function( value ){
-                    window[ value ](type);
+                    value(type);
                 })
             }
         });
@@ -78,6 +62,24 @@ var processPage = function( INTERVAL_HANDLE ){
         }
     }
 };
+
+// Configuration of page types and the functions to execute when on them
+var pageTypes = [
+    {
+        matchURL: '/scenes/',
+        infoBoxSelector: 'dl.scene-file-info.details-list',
+        functions: [
+            showFullPath
+        ]
+    },
+    {
+        matchURL: '/images/',
+        infoBoxSelector: 'dl.image-file-info.details-list',
+        functions: [
+            showFullPath
+        ]
+    }
+];
 
 // Run the functions
 (function(){
