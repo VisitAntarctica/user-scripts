@@ -56,21 +56,26 @@ var showFullPath = function( pageType ){
 };
 
 var processPage = function( INTERVAL_HANDLE ){
-    INTERVAL_HANDLE = INTERVAL_HANDLE || null;
-    // what kind of page are we on? 
-    debugger;
-    const location = window.location.toString();
-    pageTypes.forEach(function( type ){
-        // var type = pageTypes[index];
-        if( location.indexOf( type.matchURL ) !== -1 ){
-            type.functions.forEach( function( funcName , index ){
-                window[ funcName ](type);
-            })
+    try {
+        INTERVAL_HANDLE = INTERVAL_HANDLE || null;
+        // what kind of page are we on? 
+        debugger;
+        const location = window.location.toString();
+        pageTypes.forEach(function( type ){
+            // var type = pageTypes[index];
+            if( location.indexOf( type.matchURL ) !== -1 ){
+                type.functions.forEach( function( funcName , index ){
+                    window[ funcName ](type);
+                })
+            }
+        });
+    } catch(e){
+        console.error("Caught error {0}", e);
+    } finally {
+        if( INTERVAL_HANDLE ){
+            clearInterval( INTERVAL_HANDLE );
+            console.log("Cleared interval handle");
         }
-    });
-    if( INTERVAL_HANDLE ){
-        clearInterval( INTERVAL_HANDLE );
-        console.log("Cleared interval handle");
     }
 };
 
