@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      Stash enhancements
 // @namespace /user-scripts/source/site-category/adult/stash_enhancements.user.js 
-// @version  1.30
+// @version  1.40
 // @grant    none
 // @noframes
 // @description UI/UX enhancements that make stash work better for this user
