@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.40
+// @version  1.50
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -43,9 +43,11 @@ var GRAVITY_LINK = ( targetUrl , text , fileName , referer ) => {
 // User script config
 var aspects = [
     { key: "240" }, 
+    { key: "480" }, 
     { key: "720", breakpoint: 101164 },
+    { key: "1080", breakpoint: 101164 },
     { key: "1440", breakpoint: 150000 },
-    { key: "480" }
+    { key: "2160", breakpoint: 150000 },
 ];
 var CDN_ROOT = 'https://cloudcdn.bateworld.com/';
 var VID_EXTENSION = '.mp4';
