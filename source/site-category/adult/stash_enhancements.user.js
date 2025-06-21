@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      Stash enhancements
 // @namespace /user-scripts/source/site-category/adult/stash_enhancements.user.js 
-// @version  1.20
+// @version  1.30
 // @grant    none
 // @noframes
 // @description UI/UX enhancements that make stash work better for this user
@@ -55,8 +55,8 @@ var showFullPath = function( pageType ){
 //    console.log( fileInfoBoxes );
 };
 
-// Run the functions
-(function(){
+var processPage = function( INTERVAL_HANDLE ){
+    INTERVAL_HANDLE = INTERVAL_HANDLE || null;
     // what kind of page are we on? 
     debugger;
     const location = window.location.toString();
@@ -67,5 +67,21 @@ var showFullPath = function( pageType ){
                 window[ funcName ](type);
             })
         }
-    })    
+    });
+    if( INTERVAL_HANDLE ){
+        clearInterval( INTERVAL_HANDLE );
+        console.log("Cleared interval handle");
+    }
+};
+
+// Run the functions
+(function(){
+    var INTERVAL_HANDLE = window.setInterval(() => {
+        document.querySelectorAll('div.file-info-panel').forEach(
+          (el) => {
+            console.log('Runtime!');
+            processPage( INTERVAL_HANDLE );
+          }
+        );
+    }, 3000);
 })(); // IIFE
