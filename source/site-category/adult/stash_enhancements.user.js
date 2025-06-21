@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      Stash enhancements
 // @namespace /user-scripts/source/site-category/adult/stash_enhancements.user.js 
-// @version  1.42
+// @version  1.50
 // @grant    none
 // @noframes
 // @description UI/UX enhancements that make stash work better for this user
@@ -58,7 +58,7 @@ var processPage = function( INTERVAL_HANDLE ){
     } finally {
         if( INTERVAL_HANDLE ){
             clearInterval( INTERVAL_HANDLE );
-            console.log("Cleared interval handle");
+            // console.log("Cleared interval handle");
         }
     }
 };
@@ -83,12 +83,39 @@ var pageTypes = [
 
 // Run the functions
 (function(){
-    var INTERVAL_HANDLE = window.setInterval(() => {
-        document.querySelectorAll('div.file-info-panel').forEach(
-          (el) => {
-            console.log('Runtime!');
-            processPage( INTERVAL_HANDLE );
-          }
-        );
-    }, 3000);
+    var monitoredElement = "div.main";
+    // Select the node that will be observed for mutations
+    const targetNode = document.querySelector(monitoredElement);
+
+    // Options for the observer (which mutations to observe)
+    const config = { attributes: false, childList: true, subtree: false };
+
+    // Callback function to execute when mutations are observed
+    const callback = (mutationList, observer) => {
+        for (const mutation of mutationList) {
+            if (mutation.type === "childList") {
+                for( const node of mutation.addedNodes ){
+                    // console.info( node );
+                    if( node.className == "row" ){
+                        // console.info("added .row node");
+                        var INTERVAL_HANDLE = window.setInterval(() => {
+                            document.querySelectorAll('div.file-info-panel').forEach(
+                              (el) => {
+                                // console.log('Runtime!');
+                                processPage( INTERVAL_HANDLE );
+                              }
+                            );
+                        }, 500);
+                    }
+                }
+            }
+        }
+    };
+
+    // Create an observer instance linked to the callback function
+    const observer = new MutationObserver(callback);
+
+    // Start observing the target node for configured mutations
+    observer.observe(targetNode, config);
+    
 })(); // IIFE
