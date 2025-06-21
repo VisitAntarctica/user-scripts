@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      Stash enhancements
 // @namespace /user-scripts/source/site-category/adult/stash_enhancements.user.js 
-// @version  1.40
+// @version  1.41
 // @grant    none
 // @noframes
 // @description UI/UX enhancements that make stash work better for this user
@@ -64,8 +64,8 @@ var processPage = function( INTERVAL_HANDLE ){
         pageTypes.forEach(function( type ){
             // var type = pageTypes[index];
             if( location.indexOf( type.matchURL ) !== -1 ){
-                type.functions.forEach( function( funcName , index ){
-                    window[ funcName ](type);
+                type.functions.forEach( function( value ){
+                    window[ value ](type);
                 })
             }
         });
