@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.19
+// @version  1.20
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -121,7 +121,7 @@ var btn_success = ( el ) => {
 
     // try and find a title in the post
     var downloadTag = '';
-    try {
+    /*try {
         var topContainer = el.parentElement.parentElement;
         // first try: previous node
         
@@ -137,7 +137,7 @@ var btn_success = ( el ) => {
         }
     } catch(e){
         console.log(e);
-    }
+    }*/
     
     // make the link to the source
     var href = document.createElement('a');
