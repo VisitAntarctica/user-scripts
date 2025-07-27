@@ -2,10 +2,10 @@
 // @name      Thisvid - UI fixes
 // @namespace /user-scripts/source/site-category/adult/thisvid-ui.user.js
 // @include /^https://.*\.?thisvid?\.com/.*/
-// @version  1.00
+// @version  1.10
 // @grant    none
 // @noframes
-// @description Misc fixes for the UI on Thisvid
+// @description Thisvid UI enhancements
 // ==/UserScript==
 // jshint esversion: 8
 
