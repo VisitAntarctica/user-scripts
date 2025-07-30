@@ -2,7 +2,7 @@
 // @name      Thisvid - UI fixes
 // @namespace /user-scripts/source/site-category/adult/thisvid-ui.user.js
 // @include /^https://.*\.?thisvid?\.com/.*/
-// @version  1.14
+// @version  1.15
 // @grant    none
 // @noframes
 // @description Thisvid UI enhancements
@@ -13,7 +13,7 @@
 var idElementType = 'span';
 var idElementClass = 'this-id';
 var thumbRE = new RegExp(/\/(\d+)\/[^/]*?\/\d+\.\w{3,4}$/ig);
-var posterRE = new RegExp(/\/(\d+)\/[^/]*?\/[\w\d.]+\.\w{3,4}$/ig);
+var posterRE = new RegExp(/\/(\d+)\/[\w\d.]+\.\w{3,4}$/ig);
 
 // Function definition
 var colorPercent = function( percentStr ){
