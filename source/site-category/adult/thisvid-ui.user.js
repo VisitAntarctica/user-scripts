@@ -2,7 +2,7 @@
 // @name      Thisvid - UI fixes
 // @namespace /user-scripts/source/site-category/adult/thisvid-ui.user.js
 // @include /^https://.*\.?thisvid?\.com/.*/
-// @version  1.12
+// @version  1.14
 // @grant    none
 // @noframes
 // @description Thisvid UI enhancements
@@ -163,8 +163,7 @@ ${idElementType}.${idElementClass} span:last-of-type {
     });
     var vimg = document.querySelectorAll('.fp-poster > img');
     vimg.forEach((img) => {
-        debugger;
-        exposeImgId( img , document.querySelector('div.headline') , posterRE);
+        exposeImgId( img , document.querySelector('div.headline h1') , posterRE);
     });
 })();
 
