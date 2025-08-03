@@ -15,6 +15,14 @@ var idElementClass = 'this-id';
 var thumbRE = new RegExp(/\/(\d+)\/[^/]*?\/\d+\.\w{3,4}$/ig);
 var posterRE = new RegExp(/\/(\d+)\/[\w\d.]+\.\w{3,4}$/ig);
 
+var color_map = [
+    { index: 97, 'background-color': '#50e848', color: '#000' },
+    { index: 93, 'background-color': '#a8f25a', color: '#000' },
+    { index: 87, 'background-color': '#f4f72e', color: '#000' },
+    { index: 80, 'background-color': '#bd6800', color: '#000' },
+    { index: 60, 'background-color': '#d60800', color: '#000' },
+    { index: 0, 'background-color': '#a80037', color: '#000' },
+];
 // Function definition
 var colorPercent = function( percentStr ){
     var percentNum = -1;
@@ -32,22 +40,17 @@ var colorPercent = function( percentStr ){
         'color': 'inherit',
         'font-weight': 'normal',
     };
-    if( percentNum > 97 ){
-        r["background-color"] = "#50e848"; // bluegreen
-        r.color = '#000';
-    } else if( percentNum > 93 ) {
-        r["background-color"] = "#a8f25a"; // light green
-        r.color = '#000';
-    } else if( percentNum > 87 ){
-        r["background-color"] = "#f4f72e"; // yellow
-        r.color = '#000';
-    } else if( percentNum > 80 ) {
-        r["background-color"] = "#bd6800"; // orange
-    } else if( percentNum > 60 ){
-        r["background-color"] = "#d60800"; // bright red
-    } else {
-        r["background-color"] = "#a80037"; // dark red
-    }
+    
+    var this_color_map = JSON.parse(JSON.stringify(color_map)).sort((a,b) => b.index - a.index);
+    do {
+        var c = this_color_map.shift();
+        if ( percentNum > c.index ){
+            r["background-color"] = c['background-color'];
+            r.color = c.color;
+            break;
+        }
+    } while( this_color_map.length > 0 );
+
     return r;
 };
 
