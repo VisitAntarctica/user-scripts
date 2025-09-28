@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name      MG dark mode
 // @namespace /user-scripts/source/site-category/adult/mg_dark_mode.user.js 
-// @version  1.01
+// @version  1.02
 // @include /^https://.*\.?malegeneral\.com\/.*\/.*\.php/
+// @include /^https://.*\.?malegeneral\.com\/archive/.*/
 // @grant    none
 // @noframes
 // @description Dark mode for MG
@@ -11,7 +12,7 @@
 
 var style = `html,
 body {
-    background: #001a5a;
+    background: #003f88;
 }
 a:link,
 a:visited {
@@ -44,7 +45,7 @@ legend,
 #footer,
 #userdelete,
 #userpage {
-    background: #003f88;
+    background: #001a5a;
     border-color: #d8e6ff;
     color: #fff;
 }
@@ -54,7 +55,7 @@ textarea,
 .delcheck,
 .nothumb,
 a.nothumb:hover {
-    background: #c77bcc;
+    background: #00f1d6;
 }
 #displayText {
     background-color: rgb(170, 85, 85);
