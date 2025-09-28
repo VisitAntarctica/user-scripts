@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      Stash enhancements
 // @namespace /user-scripts/source/site-category/adult/stash_enhancements.user.js 
-// @version  1.60
+// @version  1.70
 // @grant    none
 // @noframes
 // @description UI/UX enhancements that make stash work better for this user
@@ -76,6 +76,13 @@ var pageTypes = [
     {
         matchURL: '/images/',
         infoBoxSelector: 'dl.image-file-info.details-list',
+        functions: [
+            showFullPath
+        ]
+    },
+    {
+        matchURL: '/galleries/',
+        infoBoxSelector: 'dl.gallery-file-info.details-list',
         functions: [
             showFullPath
         ]
