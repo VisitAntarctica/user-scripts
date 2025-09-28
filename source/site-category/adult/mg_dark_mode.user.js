@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name      MG dark mode
 // @namespace /user-scripts/source/site-category/adult/mg_dark_mode.user.js 
-// @version  1.00
-// @include /^https://.*\.?malegeneral?\.com/.*\/\.php/
+// @version  1.01
+// @include /^https://.*\.?malegeneral\.com\/.*\/.*\.php/
 // @grant    none
 // @noframes
 // @description Dark mode for MG
