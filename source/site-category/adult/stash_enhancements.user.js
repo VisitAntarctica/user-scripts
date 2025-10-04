@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name      Stash enhancements
 // @namespace /user-scripts/source/site-category/adult/stash_enhancements.user.js 
-// @version  1.70
+// @version  1.80
 // @grant    none
 // @noframes
 // @description UI/UX enhancements that make stash work better for this user
@@ -26,13 +26,24 @@ var showFullPath = function( pageType ){
                 var fileLinkHREF = fileLink.getAttribute('href');
                 var fileLinkREResult = fileLinkHREF.matchAll( filePathRegex );
                 var fileLinkParts = [...fileLinkREResult];
-                // for( var j = fileLinkParts.length - 1 ; j >=0 ; j-- ){
+                var existDiv = document.querySelector('div.gm-showFullPath');
+                if( existDiv ){
+                    existDiv.parentNode.removeChild(existDiv);
+                }
+                var newOuterDiv = document.createElement('div');
+                newOuterDiv.setAttribute('class','gm-showFullPath');
+
                 for( var j = 0 ; j < fileLinkParts.length ; j++ ){
                     // reverse search allows building the 
                     // array index 1 contains the matched content 
                     var newDiv = document.createElement('div');
                     newDiv.append( document.createElement('p').innerText = fileLinkParts[j][1] );
-                    fileLink.insertAdjacentElement('afterend' , newDiv );
+                    newOuterDiv.append( newDiv );
+                }
+                try {
+                    fileLink.insertAdjacentElement('afterend' , newOuterDiv );
+                } catch(e){
+                    console.error(e);
                 }
             }
         }
@@ -96,7 +107,7 @@ var pageTypes = [
             (el) => {
                 // this code will only run when there is at least one monitored element
                 try {
-                // console.log('Runtime!');
+                console.log('Runtime 1!');
                 // Select the node that will be observed for mutations
                 const targetNode = document.querySelector(monitoredElement);
 
@@ -134,6 +145,51 @@ var pageTypes = [
                     console.error(`stash_enhancements.user.js encountered an error when processing the main sequence: ${e}`);
                 } finally {
                     window.clearInterval(MAIN_HANDLE);
+                }
+            }
+        );
+    }, 500); // 500ms to
+
+    var SWITCH_HANDLE = window.setInterval(() => {
+        var switchMonitoredElement = 'div.video-wrapper video';
+        document.querySelectorAll( switchMonitoredElement ).forEach(
+            (el) => {
+                // this code will only run when there is at least one monitored element
+                try {
+                // Select the node that will be observed for mutations
+                const targetNode = document.querySelector(switchMonitoredElement);
+
+                // Options for the observer (which mutations to observe)
+                const config = { attributes: true, childList: false, subtree: false, characterData: false };
+
+                // Callback function to execute when mutations are observed
+                const callback = (mutationList, observer) => {
+                    for (const mutation of mutationList) {
+                        if (mutation.type === "attributes" && mutation.attributeName == 'poster') {
+                            // poster changed, so the scene changed
+                            if( document.querySelectorAll('div.file-info-panel').length > 0 ){
+                                var INTERVAL_HANDLE = window.setInterval(() => {
+                                    document.querySelectorAll('div.file-info-panel').forEach(
+                                    (el) => {
+                                        // console.log('Runtime!');
+                                        processPage( INTERVAL_HANDLE );
+                                    }
+                                    );
+                                }, 500);
+                            }
+                        }
+                    }
+                };
+
+                // Create an observer instance linked to the callback function
+                const observer = new MutationObserver(callback);
+
+                // Start observing the target node for configured mutations
+                observer.observe(targetNode, config);
+                } catch(e){
+                    console.error(`stash_enhancements.user.js encountered an error when processing the main sequence: ${e}`);
+                } finally {
+                    window.clearInterval(SWITCH_HANDLE);
                 }
             }
         );
