@@ -4,7 +4,7 @@
 // @include /^https://.*\.?bateworld?\.com/(bate[\w\d\-_]+?)?video(_group|album)?.php/
 // @include /^https://.*\.?bateworld?\.com/profile.php/
 // @include /^https://.*\.?bateworld?\.com/bator_training.*/
-// @version  1.50
+// @version  1.51
 // @grant    none
 // @noframes
 // @description Video tools for Bateworld
@@ -127,8 +127,9 @@ var VIDEO_INDEX_BREAKPOINT = 101164;
     if( mplsuccess == false ){
         // for all the video elements in the page
         var INTERVAL_HANDLE = window.setInterval(() => {
-            document.querySelectorAll('video').forEach(
+            document.querySelectorAll('video').forEach( (el) => {
                 makeVideoElementLink( el , INTERVAL_HANDLE )
+                }
             );
         }, 3000);
     }
