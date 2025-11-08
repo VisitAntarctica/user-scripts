@@ -3,23 +3,35 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.20
+// @version  1.30
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
 // ==/UserScript==
 
+// Some configuration variables to make updates easier
+let LOG = {
+    HEAD_REQ: {
+        state: true,
+        headers_all: true,
+        headers_list: [
+            'content-type',
+            'content-length',
+        ],
+    },
+}
+
 // CDN root
-const CDN_ROOT = 'https://www.lpsg.com';
+let CDN_ROOT = 'https://www.lpsg.com';
 // Path to videos on the CDN
-const CDN_PATHS = {
+let CDN_PATHS = {
     primary: '/data/video/',
     secondary: '/data/lsvideo/videos/',
     gallery: '/data/xfmg/',
 }
 // possible extensions for video src
 // these will be used to generate buttons
-const VID_EXTENSIONS = [
+let VID_EXTENSIONS = [
     'mp4',
     'mov',
     'm4v',
@@ -27,15 +39,15 @@ const VID_EXTENSIONS = [
 ];
 
 // Style for elements manipulated by the userscript
-const BTN_STYLE = `
+let BTN_STYLE = `
 button.user-defined,
 a.user-defined {
     border: 1px solid #333;
     border-radius: 8px;
     background-color: #eee;
     color: #000;
-    font-family: Helvetica, Arial, sans-serif;
-    font-size: 11px;
+    font-family: Open Sans, Helvetica, Arial, sans-serif;
+    font-size: 12px;
     margin: 1px;
     padding: 2px 5px;
     min-width: 75px;
@@ -75,7 +87,7 @@ div.btn-container {
 }
 `;
 
-const WRAPPER_CLASS = 'bbMediaWrapper';
+let WRAPPER_CLASS = 'bbMediaWrapper';
 
 // adds the specified style as a stylesheet to the document
 var add_style = (style) => {
@@ -85,10 +97,12 @@ var add_style = (style) => {
 }
 
 // process availability check result
-var is_url_available = (state , el) => {
+var is_url_available = (state , el , content_type , content_length) => {
+    content_type = content_type || "";
+    content_length = content_length || -1;
     el.classList.remove('btn-pending');
     if( state === true ){
-        btn_success( el );
+        btn_success( el , content_type , content_length );
     } else {
         btn_failure( el );
     }
@@ -99,19 +113,70 @@ var check_url_availability = (url, el) => {
     http.open('HEAD' , url);
     http.onreadystatechange = () => {
         if( http.readyState == http.DONE ){
-            console.log("HEAD request complete")
-            console.warn(http.status);
-            is_url_available( http.status != 404 , el );
+            // log status if requested
+            if( LOG.HEAD_REQ.state === true ) {
+                console.info(`HEAD request complete, status: ${http.status}`);
+            }
+            // did we get something other than 404 - file not found?
+            if( http.status != 404 ){
+                // something was returned
+                // process headers
+                let headerStr = http.getAllResponseHeaders();
+                var headerArr = headerStr.split("\r\n");
+                var headerObj = {};
+                do {
+                    var parts = headerArr.pop().split(": ");
+                    var key, value = "";
+                    if( parts.length == 1 && parts[0] == "" ){
+                        continue;
+                    } else if( parts.length > 1 ){
+                        var key = parts[0].trim();
+                        var value = parts[1].trim();
+                        headerObj[ key ] = value;
+                    } else {
+                        console.error('Missing header parts, cannot process header log request.');
+                    }
+                    if( LOG.HEAD_REQ.headers_list.indexOf( key ) !== -1 ){
+                        console.info( `${key} | ${value}` );
+                    }
+                } while( headerArr.length > 0 );
+
+                // dump all headers if requested
+                if( LOG.HEAD_REQ.headers_all === true ){
+                    console.info(`HEAD request headers:\n${headerStr}`);
+                } 
+                is_url_available( true , el , headerObj['content-type'] , headerObj['content-length'] );
+            } else {
+                is_url_available( false , el );
+            }
         }
     }
     http.send();
 }
+var calculate_display_size = ( size_in_bytes , minimum_scale_int ) => {
+    size_in_bytes = size_in_bytes || -1;
+    minimum_scale_int = minimum_scale_int || 0;
+    let ref_scale = ['B', 'K', 'M', 'G', 'T'];
+
+    for( var scale = ref_scale.length - 1; scale >= 0; scale-- ){
+        let scale_power = Math.pow( 1024 , scale );
+        if( size_in_bytes >= scale_power ){
+            // use this size
+            return {
+                size_float: (size_in_bytes/scale_power).toFixed(2),
+                size_label: ref_scale[scale]
+            };
+        }
+    }
+    return null;
+};
+
 // actions when the button action was successful
-var btn_success = ( el ) => {
+var btn_success = ( el , content_type , content_length) => {
     // debugger;
     // make the 'convert to video' button
     var btn = el.cloneNode();
-    btn.innerText = "Embed video"
+    btn.innerText = "Embed video";
     btn.onclick = function(e){
         btn_convert_to_vid( this );
         e = e || window.event;
@@ -138,7 +203,14 @@ var btn_success = ( el ) => {
     } catch(e){
         console.log(e);
     }*/
-    
+
+    // generate the extra HTMl w/ data about the target
+    var display_size = calculate_display_size( content_length );
+    var extraHTML = '';
+    if( display_size !== null){
+        extraHTML = ` &rarr; ${content_type} &rarr; <strong>${display_size.size_float} ${display_size.size_label}</strong>`;
+    }
+
     // make the link to the source
     var href = document.createElement('a');
     href.setAttribute( 'href' , el.getAttribute('data-xurl'));
@@ -149,7 +221,7 @@ var btn_success = ( el ) => {
     // if( downloadTag.trim().length > 0 ){
     //     href.innerHTML = downloadTag.trim();
     // } else {
-        href.innerHTML = "Media source";
+        href.innerHTML = `Media source ${extraHTML}`;
     // }
     el.parentElement.insertBefore( href , btn );
     
