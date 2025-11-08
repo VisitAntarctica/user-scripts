@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.31
+// @version  1.32
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -13,7 +13,7 @@
 let LOG = {
     HEAD_REQ: {
         state: true,
-        headers_all: true,
+        headers_all: false,
         headers_list: [
             'content-type',
             'content-length',
