@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_video.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.30
+// @version  1.31
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -47,7 +47,7 @@ a.user-defined {
     background-color: #eee;
     color: #000;
     font-family: Open Sans, Helvetica, Arial, sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     margin: 1px;
     padding: 2px 5px;
     min-width: 75px;
