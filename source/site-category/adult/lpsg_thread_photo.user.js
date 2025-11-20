@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_photo.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.02
+// @version  1.03
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -129,7 +129,7 @@ var generateButton = ( node , actuallyInsert ) => {
         href.setAttribute('class', 'user-defined btn-secondary');
 
         // set label based on filename and title
-        if( title === fileName || title.length == 0 ){
+        if( title.toLowerCase() === fileName.toLowerCase() || title.length == 0 ){
             href.innerHTML =  `${fileName}`;
         } else {
             href.innerHTML = `${title} - ${fileName}`;
