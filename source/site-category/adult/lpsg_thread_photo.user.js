@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_photo.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.00
+// @version  1.01
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -103,10 +103,10 @@ var do_work = () => {
             btnDiv.classList.add('user-defined', 'btn-container');
 
             var title = parentNode.getAttribute('title') || thumbs[i].getAttribute('alt');
-            var url = parentNode.getAttribute('data-src');
+            var url = parentNode.getAttribute('data-src') || parentNode.getAttribute('href');
             var urlParts = [...url.matchAll(/\/([^/]*?)\/$/g)];
             if( urlParts.length > 0 && urlParts[0].length > 1 ){
-                var fileName = urlParts[0][1].split('.')[0].replace('-','.');
+                var fileName = urlParts[0][1].split('.')[0].replace(/-/g,'.');
 
                 // make the link to the source
                 var href = document.createElement('a');
