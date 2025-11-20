@@ -3,7 +3,7 @@
 // @namespace /user-scripts/source/site-category/adult/lpsg_thread_photo.user.js 
 // @include /^https://.*\.?lpsg?\.com/threads/.*/
 // @include /^https://.*\.?lpsg?\.com/gallery/.*/
-// @version  1.01
+// @version  1.02
 // @grant    none
 // @noframes
 // @description Helper for videos in threads on LPSG
@@ -82,49 +82,66 @@ var add_style = (style) => {
 // entry point for work
 var do_work = () => {
     // debugger;
-    // add button to convert image into image sources
+    // add button to convert embedded images into image sources
     var thumbs = document.querySelectorAll('img.bbImage');
+    var attachImg = document.querySelectorAll('a.js-lbImage img');
     if( thumbs.length === 0 ){
-        console.log("No images found");
+        console.log("No embedded images found");
     } else {
-        console.log( thumbs.length , " images found, processing. . ." );
-        /*var isGallery = false;
-        if( [...window.location.href.matchAll(/gallery/g)].length > 0 ){
-            // this is a gallery page
-            isGallery = true;
-        }*/
+        console.log( thumbs.length , " embedded images found, processing. . ." );
         for( var i = 0 ; i < thumbs.length ; i++ ){
-            // parent of the thumb img - the wrapper
-            var parentNode = thumbs[i].parentElement;
-            // parent of the inner wrapper - outer wrapper
-            var wrapperNode = parentNode.parentElement;
-            // shell div to hold buttons
-            var btnDiv = document.createElement('div');
-            btnDiv.classList.add('user-defined', 'btn-container');
-
-            var title = parentNode.getAttribute('title') || thumbs[i].getAttribute('alt');
-            var url = parentNode.getAttribute('data-src') || parentNode.getAttribute('href');
-            var urlParts = [...url.matchAll(/\/([^/]*?)\/$/g)];
-            if( urlParts.length > 0 && urlParts[0].length > 1 ){
-                var fileName = urlParts[0][1].split('.')[0].replace(/-/g,'.');
-
-                // make the link to the source
-                var href = document.createElement('a');
-                href.setAttribute( 'href' , url );
-                href.setAttribute('target' , '_blank');
-                href.setAttribute('download' , fileName );
-                href.setAttribute('onclick', 'javascript:return false;');
-                href.setAttribute('class', 'user-defined btn-secondary');
-                // if( downloadTag.trim().length > 0 ){
-                //     href.innerHTML = downloadTag.trim();
-                // } else {
-                    href.innerHTML = `${fileName}`;
-                // }
-                parentNode.insertBefore( href , thumbs[i] );
-            } else {
-                console.error(`Failure parsing image file name, urlParts array: ${JSON.stringify(urlParts)}`);
-            }
+            generateButton( thumbs[i] );
         }
+    }
+    if( attachImg.length === 0 ){
+        console.log("No attached images found");
+    } else {
+        console.log( attachImg.length , " attached images found, processing. . .");
+        for( var j = 0 ; j < attachImg.length ; j++ ){
+            var href = generateButton( attachImg[j] , false );
+            attachImg[j].parentElement.parentElement.parentElement.parentElement.appendChild( href );
+        }
+    }
+};
+
+var generateButton = ( node , actuallyInsert ) => {
+    actuallyInsert = ( actuallyInsert == false ? false : true );
+    // parent of the thumb img - the wrapper
+    var parentNode = node.parentElement;
+    // parent of the inner wrapper - outer wrapper
+    // var wrapperNode = parentNode.parentElement;
+    // // shell div to hold buttons
+    // var btnDiv = document.createElement('div');
+    // btnDiv.classList.add('user-defined', 'btn-container');
+
+    var title = parentNode.getAttribute('title') || node.getAttribute('alt');
+    var url = parentNode.getAttribute('data-src') || parentNode.getAttribute('href');
+    var urlParts = [...url.matchAll(/\/([^/]*?)\/$/g)];
+    if( urlParts.length > 0 && urlParts[0].length > 1 ){
+        var fileName = urlParts[0][1].split('.')[0].replace(/-/g,'.');
+
+        // make the link to the source
+        var href = document.createElement('a');
+        href.setAttribute( 'href' , url );
+        href.setAttribute('target' , '_blank');
+        href.setAttribute('download' , fileName );
+        href.setAttribute('onclick', 'javascript:return false;');
+        href.setAttribute('class', 'user-defined btn-secondary');
+
+        // set label based on filename and title
+        if( title === fileName || title.length == 0 ){
+            href.innerHTML =  `${fileName}`;
+        } else {
+            href.innerHTML = `${title} - ${fileName}`;
+        }
+        // insert into the parent node
+        if( actuallyInsert == true ){
+            parentNode.insertBefore( href , node );
+        } else {
+            return href;
+        }
+    } else {
+        console.error(`Failure parsing image file name, urlParts array: ${JSON.stringify(urlParts)}`);
     }
 };
 
