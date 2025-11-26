@@ -2,7 +2,7 @@
 // @name      Bateworld - User Profile
 // @namespace /user-scripts/source/site-category/adult/bateworld_user_profile.user.js 
 // @include /^https://.*\.?bateworld?\.com/profile.php/
-// @version  1.06
+// @version  1.07
 // @grant    none
 // @noframes
 // @description User profile enhancements for Bateworld
@@ -50,10 +50,10 @@ var actionTracker;
 
 var doWork = () => {
     //// Make the info section less blocky and more usable 
-    var infoTable = document.querySelectorAll('div.profile_content');
+    var infoTable = document.querySelectorAll('div.profile_content table')
     if( infoTable && infoTable.length > 0 ){
         try {
-            var infoTableText = document.querySelector('div.profile_content').getElementById('01').querySelector('table').innerText;
+            var infoTableText = infoTable[0].innerText;
             var processedText = infoTableText.replace(/:[\t\s\n]+\n/igm,': ').replace(/\n\n/igm,"\n");
             
             var newdiv = document.createElement('div');
@@ -65,12 +65,12 @@ var doWork = () => {
             newdiv.appendChild( btn );
             var profileHeadline = document.querySelector('div.profile_headline');
             profileHeadline.appendChild(newdiv);
+            return true;
         } catch(e){
             console.log(`Error caught when trying to read the info table: ${e}`);
         }
-    } else {
-        actionTracker = setTimeout( doWork , 1000 );
     }
+    actionTracker = setTimeout( doWork , 1000 );
 };
 
 (() => {
