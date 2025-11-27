@@ -2,7 +2,7 @@
 // @name      Bateworld - User Profile
 // @namespace /user-scripts/source/site-category/adult/bateworld_user_profile.user.js 
 // @include /^https://.*\.?bateworld?\.com/profile.php/
-// @version  1.08
+// @version  1.09
 // @grant    none
 // @noframes
 // @description User profile enhancements for Bateworld
@@ -67,6 +67,10 @@ var doWork = () => {
             btn.setAttribute('class' , 'btn-default');
             btn.innerHTML = 'Copy';
             newdiv.appendChild( btn );
+            var btn2 = btn.cloneNode(true);
+            btn2.innerHTML = 'Clear';
+            btn2.setAttribute('data-text' , '');
+            newdiv.appendChild( btn2 );
             var profileHeadline = document.querySelector('div.profile_headline');
             profileHeadline.appendChild(newdiv);
             return true;
