@@ -70,6 +70,7 @@ var doWork = () => {
             var btn2 = btn.cloneNode(true);
             btn2.innerHTML = 'Clear';
             btn2.setAttribute('data-text' , '');
+            btn2.onclick = btn.onclick;
             newdiv.appendChild( btn2 );
             var profileHeadline = document.querySelector('div.profile_headline');
             profileHeadline.appendChild(newdiv);
